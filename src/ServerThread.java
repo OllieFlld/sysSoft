@@ -22,7 +22,7 @@ public class ServerThread extends Thread
         }
     }
 
-    public long getClientID(){
+    public int getClientID(){
         return this.ID;
 
     }

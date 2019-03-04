@@ -14,6 +14,7 @@ public class Client {
     DataInputStream inputStream;
     DataOutputStream outputStream;
     Random random;
+    static  Client client;
 
     public Client(){
         this.id = 0;
@@ -25,17 +26,17 @@ public class Client {
 
 
     public static void main(String args[]) {
-        Client client = new Client();
-        client.init(client);
+        client = new Client();
+        client.init();
 
             while(true){
 
-                client.listen(client);
+                client.listen();
                 String sending = client.scanner.nextLine();
-                client.sendToServer(client, sending);
+                client.sendToServer(sending);
 
                 if(sending.equals("!exit")){
-                    client.closeConnection(client);
+                    client.closeConnection();
                     break;
                 }
 
@@ -44,7 +45,7 @@ public class Client {
 
     }
 
-    public void init(Client client){
+    public void init(){
         try{
             client.socketConnection = new Socket("localhost", 4445);
             client.inputStream = new DataInputStream(client.socketConnection.getInputStream());
@@ -58,7 +59,7 @@ public class Client {
 
     }
 
-    public void sendToServer(Client client, String data){
+    public void sendToServer(String data){
         try {
             client.outputStream.writeUTF(data);
         }catch (IOException e){
@@ -67,7 +68,7 @@ public class Client {
         }
     }
 
-    public void listen(Client client){
+    public void listen(){
         try{
             String data = client.inputStream.readUTF();
 
@@ -82,7 +83,7 @@ public class Client {
 
     }
 
-    public void closeConnection(Client client){
+    public void closeConnection(){
         try{
             client.socketConnection.close();
             client.scanner.close();
@@ -95,7 +96,7 @@ public class Client {
 
     }
 
-    public void flushStream(Client client){
+    public void flushStream(){
         try{
             client.outputStream.flush();
         }catch (IOException e){
