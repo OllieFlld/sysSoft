@@ -54,8 +54,6 @@ public class Server{
 
                ServerThread thread =  new ServerThread(server.socket, inputStream, outputStream, server.generateNewID());
                thread.start();
-               //Wait 100 milliseconds for the server thread to catch up
-               thread.sleep(100);
                server.connectedClientsIDs.add(thread.getClientID());
                System.out.println(server.connectedClientsIDs);
 

@@ -14,7 +14,7 @@ public class Client {
     DataInputStream inputStream;
     DataOutputStream outputStream;
     Random random;
-    static  Client client;
+    public static Client client;
 
     public Client(){
         this.id = 0;
@@ -24,28 +24,8 @@ public class Client {
 
     }
 
-
-    public static void main(String args[]) {
-        client = new Client();
-        client.init();
-
-            while(true){
-
-                client.listen();
-                String sending = client.scanner.nextLine();
-                client.sendToServer(sending);
-
-                if(sending.equals("!exit")){
-                    client.closeConnection();
-                    break;
-                }
-
-            }
-
-
-    }
-
     public void init(){
+        client = new Client();
         try{
             client.socketConnection = new Socket("localhost", 4445);
             client.inputStream = new DataInputStream(client.socketConnection.getInputStream());
@@ -62,6 +42,13 @@ public class Client {
     public void sendToServer(String data){
         try {
             client.outputStream.writeUTF(data);
+
+            if(data.equals("!exit")){
+                closeConnection();
+
+            }
+
+
         }catch (IOException e){
             e.printStackTrace();
 
@@ -70,6 +57,8 @@ public class Client {
 
     public void listen(){
         try{
+
+            //THIS IS WHERE ALL THE DATA COMING IN FROM THE SERVER SHOULD BE HANDLED
             String data = client.inputStream.readUTF();
 
             client.id = Integer.parseInt(data);

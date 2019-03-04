@@ -33,6 +33,7 @@ public class ServerThread extends Thread
 
             String receivedData = inputStream.readUTF();
 
+            System.out.println(receivedData);
             if(!receivedData.isEmpty()){
                 if(receivedData.equals("#user")){
                     System.out.println("Launch Client Handler");
