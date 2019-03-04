@@ -17,7 +17,7 @@ import java.util.Random;
 public class Server{
     static final int PORT = 4445;
 
-    List<Long> connectedClientsIDs;
+    List<Integer> connectedClientsIDs;
 
     ServerSocket serverSocket;
     Socket socket;
@@ -25,15 +25,12 @@ public class Server{
     public Server(){
         this.serverSocket = null;
         this.socket = null;
-        this.connectedClientsIDs = new ArrayList<Long>();
+        this.connectedClientsIDs = new ArrayList<Integer>();
 
     }
 
 
     public static void main(String args[]) {
-
-        //ServerSocket serverSocket = null;
-        //Socket socket = null;
 
         Server server = new Server();
 
