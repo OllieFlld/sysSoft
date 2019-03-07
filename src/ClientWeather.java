@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
 public class ClientWeather extends Client {
 
     double tempreture;
@@ -6,45 +9,44 @@ public class ClientWeather extends Client {
     double humidity;
     double windforce;
 
-    static ClientWeather nathan;
+    static ClientWeather weather;
+    static weatherStationData data;
 
 
-    public ClientWeather(){
+    public ClientWeather() {
 
     }
 
     public static void main(String args[]) {
 
-        nathan = new ClientWeather();
-        nathan.init();
+        weather = new ClientWeather();
+        data = new weatherStationData();
+
+        weather.init();
 
         //Handshake here, send data to the server telling it who it is
+        weather.sendToServer("#weather");
 
-        while (true){
-            nathan.listen();
+        while (true) {
+            weather.listen();
+
             //String sending = nathan.scanner.nextLine();
-            nathan.generateRandomValues();
-            String sending = (Double.toString(nathan.tempreture) +"  "+ Double.toString(nathan.barometric)+ "  " + Double.toString(nathan.pressure) );
-            nathan.sendToServer(sending);
+            data.generateRandomValues();
+            //System.out.println(client.id);
+            String sending = (data.dataToString());
 
+
+            try {
+
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            weather.sendToServer(sending);
+            ;
 
 
         }
-    }
-
-    public void generateRandomValues(){
-        this.tempreture = randomFloat(0,100);
-        this.barometric = randomFloat(0,100);
-        this.pressure = randomFloat(0,100);
-        this.humidity = randomFloat(0,100);
-        this.windforce = randomFloat(0,100);
-
-    }
-
-    public double randomFloat(float min, float max){
-        double rand = min + nathan.random.nextDouble() * (max - min);
-
-        return rand;
     }
 
 

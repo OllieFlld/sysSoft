@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Server{
+public class Server {
     static final int PORT = 4445;
 
     List<Integer> connectedClientsIDs;
@@ -22,7 +22,7 @@ public class Server{
     ServerSocket serverSocket;
     Socket socket;
 
-    public Server(){
+    public Server() {
         this.serverSocket = null;
         this.socket = null;
         this.connectedClientsIDs = new ArrayList<Integer>();
@@ -45,17 +45,17 @@ public class Server{
 
             try {
                 server.socket = server.serverSocket.accept();
-                System.out.println("New connection!");
+                //System.out.println("New connection!");
 
                 DataInputStream inputStream = new DataInputStream(server.socket.getInputStream());
                 DataOutputStream outputStream = new DataOutputStream(server.socket.getOutputStream());
 
                 // new thread for a client
 
-               ServerThread thread =  new ServerThread(server.socket, inputStream, outputStream, server.generateNewID());
-               thread.start();
-               server.connectedClientsIDs.add(thread.getClientID());
-               System.out.println(server.connectedClientsIDs);
+                ServerThread thread = new ServerThread(server.socket, inputStream, outputStream, server.generateNewID());
+                thread.start();
+                server.connectedClientsIDs.add(thread.getClientID());
+                System.out.println(server.connectedClientsIDs);
 
 
             } catch (Exception e) {
@@ -64,11 +64,11 @@ public class Server{
         }
     }
 
-    public int generateNewID(){
-        Random random =  new Random();
+    public int generateNewID() {
+        Random random = new Random();
         int ID = random.nextInt(100);
 
-        if(connectedClientsIDs.contains(ID)){
+        if (connectedClientsIDs.contains(ID)) {
             generateNewID();
         }
 
