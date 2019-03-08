@@ -10,7 +10,7 @@ import javax.crypto.spec.PBEKeySpec;
 public class password {
     private static final SecureRandom RAND = new SecureRandom();
     private static final int ITERATIONS = 65536;
-    private static final int KEY_LENGTH = 512;
+    private static final int KEY_LENGTH = 256;
 
     public static Optional<String> genSalt (int length)
     {
@@ -27,7 +27,7 @@ public class password {
         PBEKeySpec spec = new PBEKeySpec(passwordIn, bytes, ITERATIONS, KEY_LENGTH);
         Arrays.fill(passwordIn, Character.MIN_VALUE);
         try {
-            SecretKeyFactory factoryKey = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+            SecretKeyFactory factoryKey = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
             byte[] securePassword = factoryKey.generateSecret(spec).getEncoded();
             return Optional.of(Base64.getEncoder().encodeToString(securePassword));
         }
