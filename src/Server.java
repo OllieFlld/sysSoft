@@ -1,23 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.lang.ClassNotFoundException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 public class Server {
     static final int PORT = 4445;
 
-    List<Integer> connectedClientsIDs;
+    Map<Integer, ServerThread> connectedClientsIDs;
 
     ServerSocket serverSocket;
     Socket socket;
@@ -25,8 +18,7 @@ public class Server {
     public Server() {
         this.serverSocket = null;
         this.socket = null;
-        this.connectedClientsIDs = new ArrayList<Integer>();
-
+        this.connectedClientsIDs = new HashMap<Integer, ServerThread>();
     }
 
 
@@ -51,11 +43,14 @@ public class Server {
                 DataOutputStream outputStream = new DataOutputStream(server.socket.getOutputStream());
 
                 // new thread for a client
-
                 ServerThread thread = new ServerThread(server.socket, inputStream, outputStream, server.generateNewID());
                 thread.start();
-                server.connectedClientsIDs.add(thread.getClientID());
+                server.connectedClientsIDs.put(thread.getClientID(), thread);
+
+                //server.threadList.add(thread);
+
                 System.out.println(server.connectedClientsIDs);
+
 
 
             } catch (Exception e) {
@@ -68,12 +63,25 @@ public class Server {
         Random random = new Random();
         int ID = random.nextInt(100);
 
-        if (connectedClientsIDs.contains(ID)) {
+        if (connectedClientsIDs.containsKey(ID)) {
             generateNewID();
         }
-
         return ID;
+    }
+
+    public void removeFromConnectedList(int clientID){
+        connectedClientsIDs.remove(clientID);
 
     }
+
+    public List<weatherStationData> getDataFromThread(int clientID){
+        ServerThread tempthread;
+        tempthread = connectedClientsIDs.get(clientID);
+        return tempthread.dataList;
+
+
+
+    }
+
 }
 

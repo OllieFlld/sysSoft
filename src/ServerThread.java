@@ -1,17 +1,21 @@
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServerThread extends Thread {
     protected Socket socket;
     protected DataInputStream inputStream;
     protected DataOutputStream outputStream;
     private int ID;
+    public List<weatherStationData> dataList;
 
     public ServerThread(Socket clientSocket, DataInputStream inputStream, DataOutputStream outputStream, int ID) {
         this.socket = clientSocket;
         this.inputStream = inputStream;
         this.outputStream = outputStream;
         this.ID = ID;
+        this.dataList = new ArrayList<weatherStationData>();
     }
 
     @Override
@@ -19,7 +23,8 @@ public class ServerThread extends Thread {
         sendToClient("#" + Integer.toString(this.ID));
         while (true) {
             listen();
-            //If data sent to client starts with a '#' it gets parsed otherwise it gets ignored
+            //If data sent to client starts with a '#' it gets parsed otherwise it gets ignore
+            //This has to be sent otherwise the program gets stuck.
             sendToClient(" ");
         }
     }
@@ -39,6 +44,7 @@ public class ServerThread extends Thread {
             if(!receivedData.substring(0,1).equals("#")){
                 data = data.stringToData(receivedData);
                 data.printValues();
+                this.dataList.add(data);
             }
 
 

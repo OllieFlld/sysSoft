@@ -92,21 +92,6 @@ public class Client {
 
     }
 
-    public void flushStream() {
-        try {
-            client.outputStream.flush();
-            //client.outputStream.reset()
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void handshake(){
-
-
-
-    }
-
     public int getID(){
         return client.id;
 
