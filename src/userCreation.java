@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.io.*;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.awt.Color;
+import java.util.Scanner;
 
 public class userCreation extends JDialog {
     private JPanel contentPane;
@@ -12,11 +14,18 @@ public class userCreation extends JDialog {
     private JPasswordField passwordInput;
     private JPasswordField passwordInputCheck;
     private JButton OKButton;
+    private JLabel detailsText;
+    private JLabel userLabel;
+    private JLabel pass1Label;
+    private JLabel pass2Label;
 
     public userCreation() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(OKButton);
+        this.setResizable(false);
+        this.setBounds(200,200,400,200);
+
 
         OKButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -52,32 +61,80 @@ public class userCreation extends JDialog {
 
     private void onOK() {
         // add your code here if necessary
+        //DatabaseHandler databaseHandler = new DatabaseHandler();
+        String userName = usernameInput.getText();
 
-        if (Arrays.equals(passwordInput.getPassword(), passwordInputCheck.getPassword()))
-        {
-            String salt = password.genSalt(512).get();
-            String key = password.hashPassword(passwordInput.getPassword(), salt).get();
-            System.out.println(key);
-            try {
-                FileWriter userDatabaseWriter = new FileWriter("database.txt");
-                userDatabaseWriter.write(key + ",");
-                userDatabaseWriter.write(salt);
-                userDatabaseWriter.close();
-            }
-            catch (IOException e)
+            if (userInputFormatCheck(userName.toCharArray()))
             {
-                System.out.println("An error occurred.");
+                if (DatabaseHandler.getUserFromDatabase(userName) == null)
+                {
+                    userLabel.setForeground(Color.BLACK);
+                    detailsText.setText("Enter Username and Password");
+
+
+                    if (Arrays.equals(passwordInput.getPassword(), passwordInputCheck.getPassword()))
+                    {
+                        if(userInputFormatCheck(passwordInput.getPassword())) {
+
+
+                            String salt = password.genSalt(256).get();
+                            String key = password.hashPassword(passwordInput.getPassword(), salt).get();
+                            pass1Label.setForeground(Color.BLACK);
+                            pass2Label.setForeground(Color.BLACK);
+                            DatabaseHandler.writeToUserDatabase(userName, key, salt);
+                            dispose();
+                        }
+                        else
+                        {
+                            pass1Label.setForeground(Color.RED);
+                            pass2Label.setForeground(Color.RED);
+                            detailsText.setText("Please use only alphanumeric characters");
+                            passwordInput.setText("");
+                            passwordInputCheck.setText("");
+                        }
+
+
+                    } else {
+                        pass1Label.setForeground(Color.RED);
+                        pass2Label.setForeground(Color.RED);
+                        detailsText.setText("Passwords do not match");
+                        passwordInputCheck.setText("");
+                    }
+
+                }
+
+                else
+                {
+                    detailsText.setText("User exists");
+                    userLabel.setForeground(Color.RED);
+                }
+            }
+            else
+                {
+                detailsText.setText("Please use only alphanumeric characters");
+                userLabel.setForeground(Color.RED);
             }
 
-
-
-        }
-        else
-        {
-            System.out.println("Try again");
-            System.out.println("Pass1: " + passwordInput.getText());
-            System.out.println("Pass2: " + passwordInputCheck.getText());
-        }
-        //dispose();
     }
+
+    private boolean userInputFormatCheck(char[] userInput)
+    {
+        if (userInput.length < 1)
+        {
+            return false;
+        }
+
+        for (char c : userInput)
+        {
+
+            if (!Character.isLetterOrDigit(c))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
 }
