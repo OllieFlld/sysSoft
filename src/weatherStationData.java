@@ -75,7 +75,7 @@ public class weatherStationData{
     }
     //For debug
     public void printValues(){
-        System.out.println(Double.toString(this.humidity) +"," + Double.toString(this.windforce) +"," + Double.toString(this.tempreture) +"," + Double.toString(this.barometric)  +"," + Double.toString(this.pressure));
+        //System.out.println(Double.toString(this.humidity) +"," + Double.toString(this.windforce) +"," + Double.toString(this.tempreture) +"," + Double.toString(this.barometric)  +"," + Double.toString(this.pressure));
 
     }
 

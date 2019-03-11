@@ -7,7 +7,7 @@ import java.util.Arrays;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-public class password {
+public class Password {
     private static final SecureRandom RAND = new SecureRandom();
     private static final int ITERATIONS = 65536;
     private static final int KEY_LENGTH = 256;
