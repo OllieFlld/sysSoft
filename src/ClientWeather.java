@@ -1,5 +1,10 @@
 import java.io.IOException;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class ClientWeather extends Client {
@@ -20,6 +25,7 @@ public class ClientWeather extends Client {
 
     public static void main(String args[]) {
 
+
         weather = new ClientWeather();
         data = new weatherStationData();
 
@@ -33,7 +39,10 @@ public class ClientWeather extends Client {
 
             //String sending = nathan.scanner.nextLine();
             data.generateRandomValues();
-            data.timestamp = Instant.now().toString();
+            LocalDateTime datetime = LocalDateTime.now();
+
+            data.timestamp = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(datetime);
+
             //System.out.println(client.id);
             String sending = (data.dataToString());
 

@@ -22,7 +22,7 @@ public class weatherStationData{
 
     public String dataToString(){
 
-        return this.timestamp + ", " + Double.toString(this.humidity) +"," + Double.toString(this.windforce) +"," + Double.toString(this.tempreture) +"," + Double.toString(this.barometric)  +"," + Double.toString(this.pressure);
+        return   this.timestamp + "," + Double.toString(this.humidity) +"," + Double.toString(this.windforce) +"," + Double.toString(this.tempreture) +"," + Double.toString(this.barometric)  +"," + Double.toString(this.pressure);
 
     }
 
@@ -30,34 +30,50 @@ public class weatherStationData{
 
         weatherStationData data = new weatherStationData();
         if(s.isEmpty()){return data;}
+        List<String> tempString = new ArrayList<String>(Arrays.asList(s.split(",")));
+        data.timestamp = tempString.get(0);
+        tempString = tempString.subList(1, tempString.size());
+        //System.out.println(tempString);
+        List<Double> temp = new ArrayList<Double>();
+        for (String c : tempString)
+        {
+            temp.add(Double.parseDouble(c));
+        }
 
-        double[] temp = Arrays.stream(s.split(",")).mapToDouble(Double::parseDouble).toArray();
 
 
 
 
-       for (int i=0; i < temp.length; i++) {
+        // double[] temp = Arrays.stream(s.split(",")).mapToDouble(Double::parseDouble).toArray();
+
+
+
+
+       for (int i=0; i < temp.size(); i++) {
            switch (i){
                case 0:
-                   data.humidity = temp[0];
+
+                   data.humidity = temp.get(i);
                    break;
                case 1:
-                   data.windforce = temp[1];
+                   data.windforce = temp.get(i);
                    break;
                case 2:
-                   data.tempreture = temp[2];
+                   data.tempreture = temp.get(i);
                    break;
-               case 34:
-                   data.barometric = temp[3];
+               case 3:
+                   data.barometric = temp.get(i);
                    break;
                case 4:
-                   data.pressure = temp[4];
+                   data.pressure = temp.get(i);
                    break;
                default:
+
                    System.out.println("error");
            }
 
        }
+
         return data;
     }
 
