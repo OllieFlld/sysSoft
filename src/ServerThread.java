@@ -33,6 +33,10 @@ public class ServerThread extends Thread {
         return this.ID;
 
     }
+    public List<weatherStationData> returnData()
+    {
+        return this.dataList;
+    }
 
     public void listen() {
         try {

@@ -1,3 +1,5 @@
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +12,7 @@ public class weatherStationData{
     double pressure;
     double humidity;
     double windforce;
+    String timestamp;
     Random random;
 
     public weatherStationData()
@@ -19,7 +22,7 @@ public class weatherStationData{
 
     public String dataToString(){
 
-        return Double.toString(this.humidity) +"," + Double.toString(this.windforce) +"," + Double.toString(this.tempreture) +"," + Double.toString(this.barometric)  +"," + Double.toString(this.pressure);
+        return this.timestamp + ", " + Double.toString(this.humidity) +"," + Double.toString(this.windforce) +"," + Double.toString(this.tempreture) +"," + Double.toString(this.barometric)  +"," + Double.toString(this.pressure);
 
     }
 
@@ -44,7 +47,7 @@ public class weatherStationData{
                case 2:
                    data.tempreture = temp[2];
                    break;
-               case 3:
+               case 34:
                    data.barometric = temp[3];
                    break;
                case 4:

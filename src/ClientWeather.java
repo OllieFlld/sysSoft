@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
 public class ClientWeather extends Client {
@@ -32,6 +33,7 @@ public class ClientWeather extends Client {
 
             //String sending = nathan.scanner.nextLine();
             data.generateRandomValues();
+            data.timestamp = Instant.now().toString();
             //System.out.println(client.id);
             String sending = (data.dataToString());
 
