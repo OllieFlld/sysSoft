@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ public class ServerThread extends Thread {
     protected DataOutputStream outputStream;
     private int ID;
     public List<weatherStationData> dataList;
+    private volatile boolean isThreadRunning = true;
 
     public ServerThread(Socket clientSocket, DataInputStream inputStream, DataOutputStream outputStream, int ID) {
         this.socket = clientSocket;
@@ -20,18 +22,25 @@ public class ServerThread extends Thread {
 
     @Override
     public void run() {
-        sendToClient("#" + Integer.toString(this.ID));
-        while (true) {
-            listen();
-            //If data sent to client starts with a '#' it gets parsed otherwise it gets ignore
-            //This has to be sent otherwise the program gets stuck.
-            sendToClient(" ");
-        }
+
+            sendToClient("#" + Integer.toString(this.ID));
+            while (isThreadRunning) {
+                listen();
+                //If data sent to client starts with a '#' it gets parsed otherwise it gets ignore
+                //This has to be sent otherwise the program gets stuck.
+                sendToClient(" ");
+            }
+
     }
 
     public int getClientID() {
         return this.ID;
 
+    }
+
+    public void stopThread()
+    {
+        isThreadRunning = false;
     }
     public List<weatherStationData> returnData()
     {
@@ -80,6 +89,7 @@ public class ServerThread extends Thread {
 
     public void closeConnection() {
         try {
+            this.isThreadRunning = false;
             this.socket.close();
             this.inputStream.close();
             this.outputStream.close();
@@ -91,13 +101,14 @@ public class ServerThread extends Thread {
 
     }
 
-    public void sendToClient(String data) {
+    public void sendToClient(String data)  {
         try {
-
-            outputStream.writeUTF(data);
-            outputStream.flush();
+            if(isThreadRunning) {
+                outputStream.writeUTF(data);
+                outputStream.flush();
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            closeConnection();
 
         }
     }

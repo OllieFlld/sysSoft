@@ -49,7 +49,7 @@ public class Client {
                 closeConnection();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            closeConnection();
         }
     }
 
@@ -71,7 +71,9 @@ public class Client {
 
             //client.inputStream.reset();
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            closeConnection();
+
 
 
         }
