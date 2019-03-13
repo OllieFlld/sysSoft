@@ -25,6 +25,10 @@ public class weatherStationData{
         return   this.timestamp + "," + Double.toString(this.humidity) +"," + Double.toString(this.windforce) +"," + Double.toString(this.tempreture) +"," + Double.toString(this.barometric)  +"," + Double.toString(this.pressure);
 
     }
+    public String formatText() {
+        return "[ " + this.timestamp + " ] " + this.humidity + ", " +this.windforce + ", " + this.tempreture + ", " + this.barometric + ", " + this.pressure;
+    }
+
 
     public weatherStationData stringToData(String s){
 

@@ -125,7 +125,7 @@ public class Server {
                 stationDataDisplay.setText("");
 
                 for (weatherStationData x : testData) {
-                    stationDataDisplay.append(formatText(x));
+                    stationDataDisplay.append(x.formatText());
                     stationDataDisplay.append(System.getProperty("line.separator"));
                 }
             }
@@ -134,9 +134,6 @@ public class Server {
     }
 
 
-    public String formatText(weatherStationData x) {
-        return "[ " + x.timestamp + " ] " + x.humidity + ", " + x.windforce + ", " + x.tempreture + ", " + x.barometric + ", " + x.pressure;
-    }
 
 
     public static void main(String args[]) {
