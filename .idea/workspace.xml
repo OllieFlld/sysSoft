@@ -4,16 +4,17 @@
     <list default="true" id="d6182527-dff8-4988-a8ec-d570736cdaca" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/Client.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/ClientWeather.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/ClientWeather.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/Server$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/Server$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/Server$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/Server$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/Server$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/Server$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Server$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/Server$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/Server$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/Server$5.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/Server.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/ServerThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/ServerThread.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ClientWeather.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ClientWeather.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Server.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ServerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ServerThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UserCreation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UserCreation.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,11 +38,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="935">
-              <caret line="55" column="11" lean-forward="true" selection-start-line="55" selection-start-column="11" selection-end-line="55" selection-end-column="11" />
+            <state relative-caret-position="1221">
+              <caret line="123" column="93" selection-start-line="123" selection-start-column="93" selection-end-line="123" selection-end-column="93" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1383#1384#0" expanded="true" />
@@ -56,8 +57,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="782">
-              <caret line="51" column="30" selection-start-line="51" selection-start-column="30" selection-end-line="51" selection-end-column="30" />
+            <state relative-caret-position="45">
+              <caret line="81" lean-forward="true" selection-start-line="80" selection-end-line="81" />
             </state>
           </provider>
         </entry>
@@ -78,13 +79,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/weatherStationData.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="35" column="10" selection-start-line="35" selection-start-column="10" selection-end-line="35" selection-end-column="10" />
+            <state relative-caret-position="272">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Server.form">
           <provider selected="true" editor-type-id="ui-designer" />
         </entry>
@@ -104,8 +105,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ClientWeather.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="283">
-              <caret line="55" selection-start-line="55" selection-end-line="55" />
+            <state relative-caret-position="323">
+              <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
             </state>
           </provider>
         </entry>
@@ -154,13 +155,13 @@
         <option value="$PROJECT_DIR$/src/ServerMain.java" />
         <option value="$PROJECT_DIR$/src/ServerUI.form" />
         <option value="$PROJECT_DIR$/src/ServerUI.java" />
-        <option value="$PROJECT_DIR$/src/ClientWeather.java" />
-        <option value="$PROJECT_DIR$/src/weatherStationData.java" />
         <option value="$PROJECT_DIR$/src/ServerThread.java" />
+        <option value="$PROJECT_DIR$/src/UserCreation.java" />
+        <option value="$PROJECT_DIR$/src/weatherStationData.java" />
+        <option value="$PROJECT_DIR$/src/Server.form" />
+        <option value="$PROJECT_DIR$/src/ClientWeather.java" />
         <option value="$PROJECT_DIR$/src/Client.java" />
         <option value="$PROJECT_DIR$/src/Server.java" />
-        <option value="$PROJECT_DIR$/src/UserCreation.java" />
-        <option value="$PROJECT_DIR$/src/Server.form" />
       </list>
     </option>
   </component>
@@ -209,7 +210,7 @@
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH" value="299" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552485364661" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552487055362" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -231,7 +232,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Server">
+  <component name="RunManager" selected="Application.ClientWeather">
     <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Client" />
       <module name="sysSoft" />
@@ -310,7 +311,7 @@
       <workItem from="1552294489058" duration="14965000" />
       <workItem from="1552329611238" duration="78000" />
       <workItem from="1552418825590" duration="12014000" />
-      <workItem from="1552476690432" duration="7556000" />
+      <workItem from="1552476690432" duration="9256000" />
     </task>
     <task id="LOCAL-00001" summary=".idea files">
       <created>1551708464481</created>
@@ -330,7 +331,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49944000" />
+    <option name="totallyTimeSpent" value="51644000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -354,7 +355,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32900432" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4968017" weight="0.33547696" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4968017" visible="true" weight="0.33547696" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39978564" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -494,13 +495,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerUI.java" />
-    <entry file="file://$PROJECT_DIR$/src/weatherStationData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="35" column="10" selection-start-line="35" selection-start-column="10" selection-end-line="35" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerThread.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1191">
@@ -522,13 +516,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ClientWeather.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="55" selection-start-line="55" selection-end-line="55" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/UserCreation.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="578">
@@ -539,10 +526,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/weatherStationData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Server.form">
+      <provider selected="true" editor-type-id="ui-designer" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ClientWeather.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="81" lean-forward="true" selection-start-line="80" selection-end-line="81" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="935">
-          <caret line="55" column="11" lean-forward="true" selection-start-line="55" selection-start-column="11" selection-end-line="55" selection-end-column="11" />
+        <state relative-caret-position="1221">
+          <caret line="123" column="93" selection-start-line="123" selection-start-column="93" selection-end-line="123" selection-end-column="93" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1383#1384#0" expanded="true" />
@@ -552,16 +563,6 @@
           </folding>
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="782">
-          <caret line="51" column="30" selection-start-line="51" selection-start-column="30" selection-end-line="51" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Server.form">
-      <provider selected="true" editor-type-id="ui-designer" />
     </entry>
   </component>
   <component name="masterDetails">

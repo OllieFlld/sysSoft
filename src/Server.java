@@ -16,20 +16,15 @@ import java.util.List;
 public class Server {
     static final int PORT = 4445;
     private JPanel mainPanel;
-    public JTextArea stationDataDisplay;
-    private int currentWeatherStation = 0;
-
-    static private DefaultListModel listModel = new DefaultListModel();
-    private JList stationNameDisplay;
-
-
+    private JTextArea stationDataDisplay;
     private JButton disconnectButton;
     private JButton updateStationDataButton;
     private JPanel stationPanel;
     private JCheckBox refreshCheckBox;
+    private JList stationNameDisplay;
+    static private DefaultListModel listModel = new DefaultListModel();
 
-
-
+    private int currentWeatherStation = 0;
     static Map<Integer, ServerThread> connectedClientsIDs;
 
     ServerSocket serverSocket;
@@ -90,10 +85,6 @@ public class Server {
         timer.setInitialDelay(10000);
         timer.start();
 
-
-
-
-
     }
 
     public void disconnectPopup()
@@ -105,7 +96,6 @@ public class Server {
             {
                 //Popup if no station is selected
                 JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),"No station selected");
-
             }
             else
             {
@@ -115,7 +105,6 @@ public class Server {
                 {
                     // Disconnects the station if yes is selected
                     disconnectStation(Integer.valueOf(currentSelectedStation));
-
                 }
             }
 
@@ -129,24 +118,24 @@ public class Server {
 
     public void updateText() {
         //Fetches data from the selected weather station
-
+        if (stationNameDisplay.getSelectedValue() != null) {
             if (currentWeatherStation != 0) {
-
+                currentWeatherStation = Integer.valueOf(stationNameDisplay.getSelectedValue().toString());
                 List<weatherStationData> testData = getDataFromThread(currentWeatherStation);
                 stationDataDisplay.setText("");
+
                 for (weatherStationData x : testData) {
                     stationDataDisplay.append(formatText(x));
                     stationDataDisplay.append(System.getProperty("line.separator"));
                 }
-            } else {
-                stationDataDisplay.setText("");
             }
 
+        }
     }
 
+
     public String formatText(weatherStationData x) {
-        String data = "[ " + x.timestamp + " ] " + x.humidity + ", " + x.windforce + ", " + x.tempreture + ", " + x.barometric + ", " + x.pressure;
-        return data;
+        return "[ " + x.timestamp + " ] " + x.humidity + ", " + x.windforce + ", " + x.tempreture + ", " + x.barometric + ", " + x.pressure;
     }
 
 
@@ -166,9 +155,7 @@ public class Server {
 
         }
 
-
         while (true) {
-
             try {
                 server.socket = server.serverSocket.accept();
 
@@ -182,46 +169,37 @@ public class Server {
                 server.connectedClientsIDs.put(thread.getClientID(), thread);
                 server.addWeatherClient(thread.getClientID());
 
-
             } catch (Exception e) {
                 System.out.println("I/O error: " + e);
             }
-
         }
-
-
     }
 
     public int generateNewID() {
-
         Random random = new Random();
         int ID = random.nextInt(100);
         if (connectedClientsIDs.containsKey(ID)) {
             generateNewID();
         }
-
-
         return ID;
     }
 
     public void disconnectStation(int clientID) {
-
         connectedClientsIDs.get(clientID).stopThread();
         connectedClientsIDs.remove(clientID);
         listModel.removeElement(clientID);
         stationNameDisplay.clearSelection();
+        stationDataDisplay.setText("");
         currentWeatherStation = 0;
 
     }
 
     public List<weatherStationData> getDataFromThread(int clientID) {
-        ServerThread tempthread;
-        tempthread = connectedClientsIDs.get(clientID);
-        return tempthread.dataList;
+        ServerThread tempThread;
+        tempThread = connectedClientsIDs.get(clientID);
 
-
+        return tempThread.dataList;
     }
-
 
 }
 

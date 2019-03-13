@@ -15,6 +15,7 @@ public class Client {
     DataOutputStream outputStream;
     Random random;
     public static Client client;
+    public static  boolean clientConnected = true;
 
     public Client() {
         this.id = 0;
@@ -87,6 +88,8 @@ public class Client {
             client.scanner.close();
             client.inputStream.close();
             client.outputStream.close();
+            client.clientConnected = false;
+            System.out.println("Connected Closed");
         } catch (IOException e) {
 
             e.printStackTrace();
