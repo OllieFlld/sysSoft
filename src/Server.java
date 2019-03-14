@@ -22,6 +22,7 @@ public class Server {
     private JPanel stationPanel;
     private JCheckBox refreshCheckBox;
     private JList stationNameDisplay;
+    private JList clientNameDisplay;
     static private DefaultListModel listModel = new DefaultListModel();
 
     private int currentWeatherStation = 0;
@@ -158,7 +159,6 @@ public class Server {
                 // new thread for a client
                 ServerThread thread = new ServerThread(server.socket, inputStream, outputStream, server.generateNewID());
                 thread.start();
-
                 server.connectedClientsIDs.put(thread.getClientID(), thread);
                 server.addWeatherClient(thread.getClientID());
 
