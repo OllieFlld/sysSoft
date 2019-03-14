@@ -133,9 +133,6 @@ public class Server {
         }
     }
 
-
-
-
     public static void main(String args[]) {
         Server server = new Server();
         JFrame frame = new JFrame("Server");
@@ -143,7 +140,6 @@ public class Server {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBounds(200, 200, 1000, 600);
         frame.setVisible(true);
-
 
         try {
             server.serverSocket = new ServerSocket(PORT);
@@ -174,7 +170,7 @@ public class Server {
 
     public int generateNewID() {
         Random random = new Random();
-        int ID = random.nextInt(100);
+        int ID = random.nextInt( 100);
         if (connectedClientsIDs.containsKey(ID)) {
             generateNewID();
         }

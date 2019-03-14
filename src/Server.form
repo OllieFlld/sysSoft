@@ -18,6 +18,7 @@
           <component id="26e17" class="javax.swing.JTextArea" binding="stationDataDisplay">
             <constraints/>
             <properties>
+              <editable value="false"/>
               <font size="12"/>
               <text value=""/>
             </properties>
