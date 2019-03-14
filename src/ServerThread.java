@@ -12,6 +12,9 @@ public class ServerThread extends Thread {
     public List<weatherStationData> dataList;
     private volatile boolean isThreadRunning = true;
 
+    //IF BOOL IS FALSE(0) then weather else user client
+    public boolean type;
+
     public ServerThread(Socket clientSocket, DataInputStream inputStream, DataOutputStream outputStream, int ID) {
         this.socket = clientSocket;
         this.inputStream = inputStream;
@@ -36,6 +39,10 @@ public class ServerThread extends Thread {
     public int getClientID() {
         return this.ID;
 
+    }
+
+    public boolean getType(){
+        return this.type;
     }
 
     public void stopThread()
@@ -67,8 +74,10 @@ public class ServerThread extends Thread {
             if (!receivedData.isEmpty()) {
                 if (receivedData.equals("#user")) {
                     System.out.println("New User System Connection");
+                    type = true;
                 } else if (receivedData.equals("#weather")) {
                     System.out.println("New Weather System Connection!");
+                    type = false;
                 } else if (receivedData.equals("!exit")) {
                     System.out.println("Closed Connection");
                     closeConnection();
