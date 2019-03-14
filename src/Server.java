@@ -170,8 +170,9 @@ public class Server {
 
     public int generateNewID() {
         Random random = new Random();
-        int ID = random.nextInt( 100);
-        if (connectedClientsIDs.containsKey(ID)) {
+
+        int ID = random.nextInt(100);
+        if (connectedClientsIDs.containsKey(ID) || ID == 0) {
             generateNewID();
         }
         return ID;
