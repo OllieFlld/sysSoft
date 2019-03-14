@@ -20,10 +20,10 @@ public class Server {
     private JButton disconnectButton;
     private JButton updateStationDataButton;
     private JPanel stationPanel;
-    private JCheckBox refreshCheckBox;
     private JList stationNameDisplay;
     private JList clientNameDisplay;
-    static private DefaultListModel listModel = new DefaultListModel();
+    static private DefaultListModel stationListModel = new DefaultListModel();
+    static private DefaultListModel clientListModel = new DefaultListModel();
 
     private int currentWeatherStation = 0;
     static Map<Integer, ServerThread> connectedClientsWeatherIDs;
@@ -34,7 +34,8 @@ public class Server {
 
 
     public Server() {
-        stationNameDisplay.setModel(listModel);
+        stationNameDisplay.setModel(stationListModel);
+        clientNameDisplay.setModel(clientListModel);
         this.serverSocket = null;
         this.socket = null;
         this.connectedClientsWeatherIDs = new HashMap<Integer, ServerThread>();
@@ -71,20 +72,7 @@ public class Server {
                 updateText();
             }}
         });
-        //Handles changes to the auto refresh check box
-        refreshCheckBox.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                if(refreshCheckBox.isSelected() == true)
-                {
-                    timer.setInitialDelay(1000);
-                    timer.start();
-                }
-                else
-                {
-                    timer.stop();
-                }
-            }
-        });
+
         timer.setInitialDelay(10000);
         timer.start();
 
@@ -116,7 +104,12 @@ public class Server {
 
     public void addWeatherClient(int serverID) {
         //Adds station to the list model to update the jlist
-        this.listModel.addElement(serverID);
+        this.stationListModel.addElement(serverID);
+    }
+
+    public void addUserClient(int serverID)
+    {
+        this.clientListModel.addElement(serverID);
     }
 
     public void updateText() {
@@ -165,12 +158,14 @@ public class Server {
                 thread.sleep(500);
                 if(thread.getType() == false){
                     server.connectedClientsWeatherIDs.put(thread.getClientID(), thread);
+                    server.addWeatherClient(thread.getClientID());
                 }else{
                     server.connectedClientUserIDs.put(thread.getClientID(), thread);
+                    server.addUserClient(thread.getClientID());
                 }
 
 
-                server.addWeatherClient(thread.getClientID());
+
 
             } catch (Exception e) {
                 System.out.println("I/O error: " + e);
@@ -198,7 +193,7 @@ public class Server {
                 connectedClientUserIDs.remove(clientID);
             }
 
-        listModel.removeElement(clientID);
+        stationListModel.removeElement(clientID);
         stationNameDisplay.clearSelection();
         stationDataDisplay.setText("");
         currentWeatherStation = 0;
