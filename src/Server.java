@@ -26,7 +26,8 @@ public class Server {
     static private DefaultListModel listModel = new DefaultListModel();
 
     private int currentWeatherStation = 0;
-    static Map<Integer, ServerThread> connectedClientsIDs;
+    static Map<Integer, ServerThread> connectedClientsWeatherIDs;
+    static Map<Integer, ServerThread> connectedClientUserIDs;
 
     ServerSocket serverSocket;
     Socket socket;
@@ -36,7 +37,8 @@ public class Server {
         stationNameDisplay.setModel(listModel);
         this.serverSocket = null;
         this.socket = null;
-        this.connectedClientsIDs = new HashMap<Integer, ServerThread>();
+        this.connectedClientsWeatherIDs = new HashMap<Integer, ServerThread>();
+        this.connectedClientUserIDs = new HashMap<Integer, ServerThread>();
 
         //Handles the manual update button
         updateStationDataButton.addActionListener(new ActionListener() {
@@ -159,7 +161,15 @@ public class Server {
                 // new thread for a client
                 ServerThread thread = new ServerThread(server.socket, inputStream, outputStream, server.generateNewID());
                 thread.start();
-                server.connectedClientsIDs.put(thread.getClientID(), thread);
+
+                thread.sleep(500);
+                if(thread.getType() == false){
+                    server.connectedClientsWeatherIDs.put(thread.getClientID(), thread);
+                }else{
+                    server.connectedClientUserIDs.put(thread.getClientID(), thread);
+                }
+
+
                 server.addWeatherClient(thread.getClientID());
 
             } catch (Exception e) {
@@ -172,15 +182,22 @@ public class Server {
         Random random = new Random();
 
         int ID = random.nextInt(100);
-        if (connectedClientsIDs.containsKey(ID) || ID == 0) {
+        if (connectedClientUserIDs.containsKey(ID) || connectedClientsWeatherIDs.containsKey(ID) || ID == 0) {
             generateNewID();
         }
         return ID;
     }
 
     public void disconnectStation(int clientID) {
-        connectedClientsIDs.get(clientID).stopThread();
-        connectedClientsIDs.remove(clientID);
+            if(connectedClientsWeatherIDs.containsKey(clientID)){
+                connectedClientsWeatherIDs.get(clientID).stopThread();
+                connectedClientsWeatherIDs.remove(clientID);
+            }
+            else{
+                connectedClientUserIDs.get(clientID).stopThread();
+                connectedClientUserIDs.remove(clientID);
+            }
+
         listModel.removeElement(clientID);
         stationNameDisplay.clearSelection();
         stationDataDisplay.setText("");
@@ -190,7 +207,13 @@ public class Server {
 
     public List<weatherStationData> getDataFromThread(int clientID) {
         ServerThread tempThread;
-        tempThread = connectedClientsIDs.get(clientID);
+        if(connectedClientsWeatherIDs.containsKey(clientID)){
+            tempThread = connectedClientsWeatherIDs.get(clientID);
+        }
+        else{
+            tempThread = connectedClientUserIDs.get(clientID);
+        }
+
 
         return tempThread.dataList;
     }
