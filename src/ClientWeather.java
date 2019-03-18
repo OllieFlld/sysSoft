@@ -34,7 +34,7 @@ public class ClientWeather extends Client {
         //Handshake here, send data to the server telling it who it is
         weather.sendToServer("#weather");
 
-        while (clientConnected) {
+        while (weather.clientConnected) {
             weather.listen();
 
             //String sending = nathan.scanner.nextLine();

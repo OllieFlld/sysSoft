@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ClientUser extends Client {
 
-    static ClientUser client;
+
     private CardLayout cl = new CardLayout();
     private JPanel mainPanel = new JPanel(cl);
     private JPanel loginPanel;
@@ -38,11 +38,6 @@ public class ClientUser extends Client {
             {
 
                 loginSend();
-                while(!loggedIn)
-                {
-                    loggedIn = loginListen();
-                }
-
 
             }
         });
@@ -63,34 +58,36 @@ public class ClientUser extends Client {
 
 
             //THIS IS WHERE ALL THE DATA COMING IN FROM THE SERVER SHOULD BE HANDLED
+            System.out.println(clientConnected);
+                if(clientConnected) {
+                    String data = inputStream.readUTF();
+                    System.out.println(data);
+                    if (data != null) {
 
-                String data = this.inputStream.readUTF();
-                System.out.println(data);
-                if (data != null) {
-
-                    if (data.substring(0, 6) == "!login") {
-                        List<String> loginData = new ArrayList<String>(Arrays.asList(data.split(",")));
-                        System.out.println("hello?");
-                        String response = loginData.get(1);
-
-
-                        switch (response) {
-                            case "success":
-
-                                return true;
+                        if (data.substring(0, 6) == "!login") {
+                            List<String> loginData = new ArrayList<String>(Arrays.asList(data.split(",")));
+                            System.out.println("hello?");
+                            String response = loginData.get(1);
 
 
-                            case "nouser":
-                                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Username does not exist");
-                                break;
-                            default:
-                                System.out.println("nope");
+                            switch (response) {
+                                case "success":
+
+                                    cl.show(mainPanel, "client");
+                                    return true;
 
 
+                                case "nouser":
+                                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Username does not exist");
+                                    break;
+                                default:
+                                    System.out.println("nope");
+
+
+                            }
                         }
                     }
                 }
-
 
         } catch (IOException e) {
             //e.printStackTrace();
@@ -99,6 +96,7 @@ public class ClientUser extends Client {
 
         }
         return false;
+
     }
 
 
@@ -107,7 +105,7 @@ public class ClientUser extends Client {
 
 
     public static void main(String args[]) {
-        client = new ClientUser();
+        ClientUser client = new ClientUser();
         client.init();
         client.sendToServer("#user");
 
@@ -125,12 +123,12 @@ public class ClientUser extends Client {
         frame.setBounds(200, 200, 1000, 600);
         frame.setVisible(true);
 
-        if(client.loggedIn == true)
+        while(!client.loggedIn)
         {
-            while(true)
-            {
-                client.listen();
-            }
+            //client.listen();
+            System.out.print(client.id);
+            client.loggedIn = client.loginListen();
+
         }
 
 

@@ -14,8 +14,9 @@ public class Client {
     DataInputStream inputStream;
     DataOutputStream outputStream;
     Random random;
-    public static Client client;
-    public static   boolean clientConnected = true;
+   // public static  Client client;
+    public  boolean clientConnected = false;
+
 
     public Client() {
         this.id = 0;
@@ -30,12 +31,12 @@ public class Client {
 
     public void init() {
 
-        client = new Client();
+
         try {
-            client.socketConnection = new Socket("localhost", 4445);
-            client.inputStream = new DataInputStream(client.socketConnection.getInputStream());
-            client.outputStream = new DataOutputStream(client.socketConnection.getOutputStream());
-            client.clientConnected = true;
+            socketConnection = new Socket("localhost", 4445);
+            inputStream = new DataInputStream(socketConnection.getInputStream());
+            outputStream = new DataOutputStream(socketConnection.getOutputStream());
+            clientConnected = true;
 
 
         } catch (IOException e) {
@@ -47,7 +48,7 @@ public class Client {
 
     public void sendToServer(String data) {
         try {
-            client.outputStream.writeUTF(data);
+            outputStream.writeUTF(data);
 
             if (data.equals("!exit")) {
                 closeConnection();
@@ -62,14 +63,14 @@ public class Client {
 
             //THIS IS WHERE ALL THE DATA COMING IN FROM THE SERVER SHOULD BE HANDLED
 
-            String data = client.inputStream.readUTF();
+            String data = inputStream.readUTF();
             System.out.println(data);
 
             if (!data.substring(0, 1).equals("#")) {
                 return;
             }
 
-            client.id = Integer.parseInt(data.substring(1, data.length()));
+            id = Integer.parseInt(data.substring(1, data.length()));
 
             System.out.println("DATA FROM SERVER : " + data);
             //System.out.println("CLIENT ID : " + Integer.toString(client.id));
@@ -89,11 +90,11 @@ public class Client {
 
     public void closeConnection() {
         try {
-            client.socketConnection.close();
-            client.scanner.close();
-            client.inputStream.close();
-            client.outputStream.close();
-            client.clientConnected = false;
+            socketConnection.close();
+            scanner.close();
+            inputStream.close();
+            outputStream.close();
+            clientConnected = false;
             System.out.println("Connected Closed");
         } catch (IOException e) {
 
@@ -103,7 +104,7 @@ public class Client {
     }
 
     public int getID(){
-        return client.id;
+        return id;
 
     }
 
