@@ -39,9 +39,10 @@ public class Password {
         }
     }
 
-    public static  boolean verifyPassword ( char[] password, String key, String salt)
+    public static  boolean verifyPassword ( String password, String key, String salt)
     {
-        Optional<String> optEncrypted = hashPassword(password, salt);
+        char[] passwordCharArray = password.toCharArray();
+        Optional<String> optEncrypted = hashPassword(passwordCharArray, salt);
         if (!optEncrypted.isPresent()){return false;}
 
         return optEncrypted.get().equals(key);

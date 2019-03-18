@@ -15,7 +15,7 @@ public class Client {
     DataOutputStream outputStream;
     Random random;
     public static Client client;
-    public static  boolean clientConnected = true;
+    public static   boolean clientConnected = true;
 
     public Client() {
         this.id = 0;
@@ -24,15 +24,18 @@ public class Client {
         this.random = new Random();
         this.inputStream = null;
         this.outputStream = null;
+        this.clientConnected = false;
 
     }
 
     public void init() {
+
         client = new Client();
         try {
             client.socketConnection = new Socket("localhost", 4445);
             client.inputStream = new DataInputStream(client.socketConnection.getInputStream());
             client.outputStream = new DataOutputStream(client.socketConnection.getOutputStream());
+            client.clientConnected = true;
 
 
         } catch (IOException e) {
@@ -58,7 +61,9 @@ public class Client {
         try {
 
             //THIS IS WHERE ALL THE DATA COMING IN FROM THE SERVER SHOULD BE HANDLED
+
             String data = client.inputStream.readUTF();
+            System.out.println(data);
 
             if (!data.substring(0, 1).equals("#")) {
                 return;

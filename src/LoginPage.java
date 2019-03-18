@@ -3,17 +3,26 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class LoginPage extends JDialog {
-    private JPanel contentPane;
-    private JButton OKButton;
+    public JPanel contentPane;
+    public JButton OKButton;
     private JButton cancelButton;
     private JTextField usernameInputField;
     private JPasswordField passwordInputField;
     private JButton createUserButton;
+    public boolean passwordEntered;
+
+    private String username;
+    private String password;
+
+
+
 
     public LoginPage() {
         setContentPane(contentPane);
         setModal(true);
         this.setResizable(false);
+
+
         getRootPane().setDefaultButton(OKButton);
 
         OKButton.addActionListener(new ActionListener() {
@@ -50,10 +59,18 @@ public class LoginPage extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
+
+
+    private  void onOK() {
         // add your code here
-        char[] passwordCharArray = passwordInputField.getPassword();
-        String userName = usernameInputField.getText();
+        password = new String(passwordInputField.getPassword());
+        username = usernameInputField.getText();
+        passwordEntered = true;
+
+
+        //ClientUser.sendToServer("#login,"+ username +","+password);
+
+        /*
 
         String[] rowFromUserDB = DatabaseHandler.getUserFromDatabase(userName);
 
@@ -72,6 +89,7 @@ public class LoginPage extends JDialog {
             JOptionPane.showMessageDialog(getParent(), "Username does not exist");
 
         }
+        */
 
     }
 
@@ -79,6 +97,15 @@ public class LoginPage extends JDialog {
         // add your code here if necessary
 
         dispose();
+    }
+
+    public String getUsername()
+    {
+        return this.username;
+    }
+
+    public String getPassword() {
+        return this.password;
     }
 
     private void onCreateUser() {
@@ -91,11 +118,15 @@ public class LoginPage extends JDialog {
     }
 
 
+
+
     public static void main(String[] args) {
         LoginPage dialog = new LoginPage();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
+
+
     }
 
 

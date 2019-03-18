@@ -2,7 +2,16 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+
+
+enum clientTypes {
+    USER,
+    STATION,
+    UNSET
+}
 
 public class ServerThread extends Thread {
     protected Socket socket;
@@ -13,7 +22,8 @@ public class ServerThread extends Thread {
     private volatile boolean isThreadRunning = true;
 
     //IF BOOL IS FALSE(0) then weather else user client
-    public boolean type;
+    public clientTypes type = clientTypes.UNSET;
+
 
     public ServerThread(Socket clientSocket, DataInputStream inputStream, DataOutputStream outputStream, int ID) {
         this.socket = clientSocket;
@@ -41,7 +51,7 @@ public class ServerThread extends Thread {
 
     }
 
-    public boolean getType(){
+    public clientTypes getType(){
         return this.type;
     }
 
@@ -60,12 +70,29 @@ public class ServerThread extends Thread {
 
             weatherStationData data = new weatherStationData();
             String receivedData = inputStream.readUTF();
+            //System.out.println(receivedData);
+            if (type == clientTypes.USER) {
+                System.out.println("USER DATA");
+                System.out.println(receivedData);
+                if (receivedData.substring(0,6).equals("!login")) {
+                    List<String> loginData = new ArrayList<String>(Arrays.asList(receivedData.split(",")));
+                    String username = loginData.get(1);
+                    String password = loginData.get(2);
+                    userLogin(username, password);
 
-            if(!receivedData.substring(0,1).equals("#")){
+
+                    //System.out.println(loginData.get());
+
+                    //Password.verifyPassword(receivedData)
+                }
+            }
+
+            if (type == clientTypes.STATION){
                 data = data.stringToData(receivedData);
                 data.printValues();
                 this.dataList.add(data);
             }
+
 
 
             ;
@@ -74,10 +101,10 @@ public class ServerThread extends Thread {
             if (!receivedData.isEmpty()) {
                 if (receivedData.equals("#user")) {
                     System.out.println("New User System Connection");
-                    type = true;
+                    type = clientTypes.USER;
                 } else if (receivedData.equals("#weather")) {
                     System.out.println("New Weather System Connection!");
-                    type = false;
+                    type = clientTypes.STATION;
                 } else if (receivedData.equals("!exit")) {
                     System.out.println("Closed Connection");
                     closeConnection();
@@ -85,15 +112,46 @@ public class ServerThread extends Thread {
                 }
 
 
+
             }
 
 
         } catch (IOException e) {
+            System.out.println("disconnected");
             return;
 
         }
 
 
+    }
+
+    private void userLogin(String clientUsername, String clientPassword)
+    {
+        String[] DBData = DatabaseHandler.getUserFromDatabase(clientUsername);
+        System.out.println(DBData);
+        if(DBData == null)
+        {
+            System.out.println("no user");
+            sendToClient("#login.nouser");
+
+        }
+        else {
+            String dbPassword = DBData[1];
+            String salt = DBData[2];
+
+            if(Password.verifyPassword(clientPassword,dbPassword,salt))
+            {
+                System.out.println("login.success");
+
+                sendToClient("!login.success");
+            }
+            else
+            {
+                System.out.println("login.passfailed");
+
+                sendToClient("!login.passfailed");
+            }
+        }
     }
 
     public void closeConnection() {

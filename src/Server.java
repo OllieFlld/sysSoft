@@ -22,6 +22,7 @@ public class Server {
     private JPanel stationPanel;
     private JList stationNameDisplay;
     private JList clientNameDisplay;
+    private JButton createUserButton;
     static private DefaultListModel stationListModel = new DefaultListModel();
     static private DefaultListModel clientListModel = new DefaultListModel();
 
@@ -51,6 +52,11 @@ public class Server {
         disconnectButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 disconnectPopup();
+            }
+        });
+        createUserButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onCreateUser();
             }
         });
         // The timer
@@ -156,10 +162,14 @@ public class Server {
                 thread.start();
 
                 thread.sleep(500);
-                if(thread.getType() == false){
+                if(thread.getType() == clientTypes.STATION){
+                    System.out.println("New Station: " + thread.getClientID());
+
                     server.connectedClientsWeatherIDs.put(thread.getClientID(), thread);
                     server.addWeatherClient(thread.getClientID());
-                }else{
+                }else if (thread.getType() == clientTypes.USER){
+                    System.out.println("New user: " + thread.getClientID());
+
                     server.connectedClientUserIDs.put(thread.getClientID(), thread);
                     server.addUserClient(thread.getClientID());
                 }
@@ -211,6 +221,15 @@ public class Server {
 
 
         return tempThread.dataList;
+    }
+
+    private void onCreateUser() {
+        try {
+            UserCreation userCreationDialog = new UserCreation();
+            userCreationDialog.setVisible(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
 }
