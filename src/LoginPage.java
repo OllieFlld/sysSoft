@@ -1,134 +1,141 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Scanner;
 
-public class LoginPage extends JDialog {
+
+public class LoginPage {
     public JPanel contentPane;
     public JButton OKButton;
     private JButton cancelButton;
     private JTextField usernameInputField;
     private JPasswordField passwordInputField;
     private JButton createUserButton;
-    public boolean passwordEntered;
-
-    private String username;
-    private String password;
-
-
-
+    Scanner scanner;
+    Socket socketConnection;
+    static DataInputStream inputStream;
+    static DataOutputStream outputStream;
+    private boolean loggedIn = false;
+    private int id = 0;
 
     public LoginPage() {
-        setContentPane(contentPane);
-        setModal(true);
-        this.setResizable(false);
-
-
-        getRootPane().setDefaultButton(OKButton);
 
         OKButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
+            public void actionPerformed(ActionEvent e)
+            {
+                loginSend();
             }
         });
-
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
-
-        createUserButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCreateUser();
-            }
-        });
-
-        // call onCancel() when cross is clicked
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                onCancel();
-            }
-        });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
-
-
-
-    private  void onOK() {
-        // add your code here
-        password = new String(passwordInputField.getPassword());
-        username = usernameInputField.getText();
-        passwordEntered = true;
-
-
-        //ClientUser.sendToServer("#login,"+ username +","+password);
-
-        /*
-
-        String[] rowFromUserDB = DatabaseHandler.getUserFromDatabase(userName);
-
-        if (rowFromUserDB != null) {
-            String hashStoredPass = rowFromUserDB[1];
-            String storedSalt = rowFromUserDB[2];
-
-            if (Password.verifyPassword(passwordCharArray, hashStoredPass, storedSalt)) {
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(getParent(), "Incorrect Password");
-                passwordInputField.setText("");
-
-            }
-        } else {
-            JOptionPane.showMessageDialog(getParent(), "Username does not exist");
-
-        }
-        */
-
-    }
-
-    private void onCancel() {
-        // add your code here if necessary
-
-        dispose();
-    }
-
-    public String getUsername()
-    {
-        return this.username;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    private void onCreateUser() {
+    public void init() {
         try {
-            UserCreation userCreationDialog = new UserCreation();
-            userCreationDialog.setVisible(true);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            socketConnection = new Socket("localhost", 4445);
+            this.inputStream = new DataInputStream(socketConnection.getInputStream());
+            this.outputStream = new DataOutputStream(socketConnection.getOutputStream());
+        } catch (IOException e) {
+            System.out.println("here");
+            e.printStackTrace();
         }
     }
 
 
+    public void listen() {
+        try {
+            String data = inputStream.readUTF();
+            System.out.println("data: " + data);
+            System.out.println("len : " + data.length());
+
+            if(data.length() > 1)
+            {
+                System.out.println(data.substring(1, 3));
+                if (data.substring(0, 1).equals("#")) {
+                    id = Integer.valueOf(data.substring(1, 3));
+                }
+                if (data.substring(0, 1).equals("!"))
+                {
+                    System.out.println("fucking work");
+                    if (data.substring(0, 7).equals("!login.")) {
+                        System.out.println(data.substring(7, data.length()));
+                        this.loggedIn = loginResponse(data.substring(7, data.length()));
+                }
 
 
-    public static void main(String[] args) {
-        LoginPage dialog = new LoginPage();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
+
+                    }
+                }
+
+
+        } catch (IOException e) {
+            //e.printStackTrace();
+            //closeConnection();
+        }
+    }
+
+    private void loginSend()
+    {
+
+        String  password = new String(passwordInputField.getPassword());
+        String username = usernameInputField.getText();
+        try {
+
+            this.outputStream.writeUTF("!login,"+ username +","+password);
+
+        } catch (IOException e) {
+            System.out.println("lo");
+        }
+    }
+
+
+    public static void main(String args[]) {
+        LoginPage login = new LoginPage();
+        login.init();
+        JFrame frame = new JFrame("User Login");
+        frame.setContentPane(new LoginPage().contentPane);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setBounds(200, 200, 1000, 600);
+        frame.setVisible(true);
+        try {
+            login.outputStream.writeUTF("#user");
+        }
+        catch (IOException e)
+        {
+
+        }
+        while (!login.loggedIn) {
+
+            System.out.println(login.loggedIn);
+            login.listen();
+
+        }
+        frame.setVisible(false);
+
+        ClientUser client = new ClientUser();
+        System.out.println("im here");
+        client.init(login.socketConnection, login.inputStream, login.outputStream, login.id);
+
 
 
     }
 
 
-}
+    private boolean loginResponse(String response)
+    {
+        System.out.println("resp: " + response);
 
+
+        switch (response) {
+            case "success":
+                return true;
+            case "nouser":
+                JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Username does not exist");
+                break;
+            default:
+                System.out.println("nope");
+        }
+        return false;
+    }
+}

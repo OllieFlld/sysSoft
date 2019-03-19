@@ -20,6 +20,7 @@ public class ServerThread extends Thread {
     private int ID;
     public List<weatherStationData> dataList;
     private volatile boolean isThreadRunning = true;
+    private boolean loggedIn = false;
 
     //IF BOOL IS FALSE(0) then weather else user client
     public clientTypes type = clientTypes.UNSET;
@@ -67,23 +68,25 @@ public class ServerThread extends Thread {
     public void listen() {
         try {
             //Distinguish what type of client it is
-
             weatherStationData data = new weatherStationData();
             String receivedData = inputStream.readUTF();
-            //System.out.println(receivedData);
+            System.out.println(receivedData);
             if (type == clientTypes.USER) {
                 System.out.println("USER DATA");
                 System.out.println(receivedData);
-                if (receivedData.substring(0,6).equals("!login")) {
-                    List<String> loginData = new ArrayList<String>(Arrays.asList(receivedData.split(",")));
-                    String username = loginData.get(1);
-                    String password = loginData.get(2);
-                    userLogin(username, password);
+                if(!loggedIn)
+                {
+                    if (receivedData.substring(0,6).equals("!login")) {
+                        List<String> loginData = new ArrayList<String>(Arrays.asList(receivedData.split(",")));
+                        String username = loginData.get(1);
+                        String password = loginData.get(2);
+                        userLogin(username, password);
 
 
-                    //System.out.println(loginData.get());
+                        //System.out.println(loginData.get());
 
-                    //Password.verifyPassword(receivedData)
+                        //Password.verifyPassword(receivedData)
+                    }
                 }
             }
 
@@ -104,6 +107,7 @@ public class ServerThread extends Thread {
                     type = clientTypes.USER;
                 } else if (receivedData.equals("#weather")) {
                     System.out.println("New Weather System Connection!");
+                    loggedIn = true;
                     type = clientTypes.STATION;
                 } else if (receivedData.equals("!exit")) {
                     System.out.println("Closed Connection");
@@ -144,6 +148,7 @@ public class ServerThread extends Thread {
                 System.out.println("login.success");
 
                 sendToClient("!login.success");
+                loggedIn = true;
             }
             else
             {

@@ -11,11 +11,12 @@ public class Client {
     int id;
     Scanner scanner;
     Socket socketConnection;
-    DataInputStream inputStream;
-    DataOutputStream outputStream;
+    static DataInputStream inputStream;
+   static  DataOutputStream outputStream;
     Random random;
    // public static  Client client;
     public  boolean clientConnected = false;
+    public boolean loggedIn;
 
 
     public Client() {
@@ -29,31 +30,38 @@ public class Client {
 
     }
 
+
+
     public void init() {
 
 
         try {
             socketConnection = new Socket("localhost", 4445);
-            inputStream = new DataInputStream(socketConnection.getInputStream());
-            outputStream = new DataOutputStream(socketConnection.getOutputStream());
+            this.inputStream = new DataInputStream(socketConnection.getInputStream());
+            this.outputStream = new DataOutputStream(socketConnection.getOutputStream());
             clientConnected = true;
 
 
         } catch (IOException e) {
+            System.out.println("here");
             e.printStackTrace();
 
         }
 
     }
 
+
     public void sendToServer(String data) {
         try {
-            outputStream.writeUTF(data);
+            System.out.println(outputStream);
+
+            this.outputStream.writeUTF(data);
 
             if (data.equals("!exit")) {
                 closeConnection();
             }
         } catch (IOException e) {
+            System.out.println("lo");
             closeConnection();
         }
     }
@@ -65,6 +73,7 @@ public class Client {
 
             String data = inputStream.readUTF();
             System.out.println(data);
+
 
             if (!data.substring(0, 1).equals("#")) {
                 return;

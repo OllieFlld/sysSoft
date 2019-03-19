@@ -19,7 +19,9 @@ public class ClientWeather extends Client {
     static weatherStationData data;
 
 
+
     public ClientWeather() {
+        this.loggedIn = true;
 
     }
 

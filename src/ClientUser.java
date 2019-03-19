@@ -1,17 +1,21 @@
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.lang.reflect.InvocationTargetException;
+import java.net.Socket;
+import java.util.*;
 import java.util.List;
 
 public class ClientUser extends Client {
 
 
-    private CardLayout cl = new CardLayout();
-    private JPanel mainPanel = new JPanel(cl);
+    private volatile CardLayout cl = new CardLayout();
+    private JPanel mainPanel =  new JPanel(cl);;
     private JPanel loginPanel;
     private JPanel clientPanel;
     private JButton gayButt;
@@ -24,98 +28,29 @@ public class ClientUser extends Client {
     private String password;
     private boolean loggedIn = false;
 
-
-
-
-
-    public ClientUser(){
-        mainPanel.add(loginPanel, "login");
-        mainPanel.add(clientPanel, "client");
-        cl.show(mainPanel,"login");
-
-        loginOKButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
-
-                loginSend();
-
-            }
-        });
-
-
-    }
-
-    private boolean loginSend()
+    public void init(Socket socketConnection, DataInputStream inputStream, DataOutputStream outputStream, int ID)
     {
-        password = new String(passwordInputField.getPassword());
-        username = usernameInputField.getText();
-        sendToServer("!login,"+ username +","+password);
-        return true;
-    }
-
-    private  boolean loginListen() {
-        try {
-
-
-            //THIS IS WHERE ALL THE DATA COMING IN FROM THE SERVER SHOULD BE HANDLED
-            System.out.println(clientConnected);
-                if(clientConnected) {
-                    String data = inputStream.readUTF();
-                    System.out.println(data);
-                    if (data != null) {
-
-                        if (data.substring(0, 6) == "!login") {
-                            List<String> loginData = new ArrayList<String>(Arrays.asList(data.split(",")));
-                            System.out.println("hello?");
-                            String response = loginData.get(1);
-
-
-                            switch (response) {
-                                case "success":
-
-                                    cl.show(mainPanel, "client");
-                                    return true;
-
-
-                                case "nouser":
-                                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Username does not exist");
-                                    break;
-                                default:
-                                    System.out.println("nope");
-
-
-                            }
-                        }
-                    }
-                }
-
-        } catch (IOException e) {
-            //e.printStackTrace();
-            //closeConnection();
-
-
-        }
-        return false;
-
+        this.socketConnection = socketConnection;
+        this.inputStream = inputStream;
+        this.outputStream = outputStream;
+        this.id = ID;
     }
 
 
 
+
+    public ClientUser() {
+        System.out.println("another print");
+
+    }
 
 
 
     public static void main(String args[]) {
+        System.out.println("in client");
+
         ClientUser client = new ClientUser();
-        client.init();
-        client.sendToServer("#user");
-
-
-        //login.getPassword;
-
-
-        //client.sendToServer("#user");
-        //client.sendToServer();
-
+        System.out.println("new client");
 
         JFrame frame = new JFrame("User Client");
         frame.setContentPane(new ClientUser().mainPanel);
@@ -123,13 +58,13 @@ public class ClientUser extends Client {
         frame.setBounds(200, 200, 1000, 600);
         frame.setVisible(true);
 
-        while(!client.loggedIn)
-        {
-            //client.listen();
-            System.out.print(client.id);
-            client.loggedIn = client.loginListen();
+
+        while(true) {
+            client.listen();
 
         }
+
+
 
 
 
