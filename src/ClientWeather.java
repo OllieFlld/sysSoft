@@ -31,13 +31,14 @@ public class ClientWeather extends Client {
         data = new weatherStationData();
 
         weather.init();
-
+        //sends a #weather handshake to the server
         weather.sendToServer("#weather");
 
         while (weather.isConnected) {
             weather.listen();
-            //String sending = nathan.scanner.nextLine();
+            //Generates random values to send to the server
             data.generateRandomValues();
+            //adds a timestamp to the data
             LocalDateTime datetime = LocalDateTime.now();
             data.timestamp = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(datetime);
             String sending = (data.dataToString());
@@ -52,10 +53,6 @@ public class ClientWeather extends Client {
 
         }
         }
-
-        //Handshake here, send data to the server telling it who it is
-
-
 
 
 

@@ -4,12 +4,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.*;
 import java.util.List;
 
@@ -35,6 +32,7 @@ public class Server {
 
 
     public Server() {
+        //sets the two client display lists on the right with their list models
         stationNameDisplay.setModel(stationListModel);
         clientNameDisplay.setModel(clientListModel);
         this.serverSocket = null;
@@ -79,23 +77,28 @@ public class Server {
                 updateText();
             }}
         });
-
+        //starts the timer to refresh the text and connected stations
         timer.setInitialDelay(10000);
         timer.start();
 
     }
+
         private void removeOldClients()
         {
+            // loops though the user clients hashmaps
             for (Map.Entry<Integer, ServerThread> entry : connectedClientUserIDs.entrySet()) {
                 ServerThread tempThread = entry.getValue();
                 if (!tempThread.isClientConnected()) {
-                    disconnectStation(entry.getKey());
+                    // if the client is marked as disconnected, then remove them from the server
+                    disconnectClient(entry.getKey());
                 }
             }
+            // loops though the station clients hashmaps
             for (Map.Entry<Integer, ServerThread> entry : connectedClientsWeatherIDs.entrySet()) {
                 ServerThread tempThread = entry.getValue();
                 if (!tempThread.isClientConnected()) {
-                    disconnectStation(entry.getKey());
+                    // if the client is marked as disconnected, then remove them from the server
+                    disconnectClient(entry.getKey());
                 }
             }
         }
@@ -116,7 +119,7 @@ public class Server {
                 if (disconnectStationConfirm == JOptionPane.YES_OPTION )
                 {
                     // Disconnects the station if yes is selected
-                    disconnectStation(Integer.valueOf(currentSelectedStation));
+                    disconnectClient(Integer.valueOf(currentSelectedStation));
                 }
             }
 
@@ -130,7 +133,6 @@ public class Server {
 
     public void addUserClient(int serverID)
     {
-
         clientListModel.addElement(serverID);
     }
 
@@ -139,10 +141,13 @@ public class Server {
         if (stationNameDisplay.getSelectedValue() != null) {
             if (currentWeatherStation != 0) {
                 currentWeatherStation = Integer.valueOf(stationNameDisplay.getSelectedValue().toString());
+                //gets the data from the selected thread
                 List<weatherStationData> testData = getDataFromThread(currentWeatherStation);
+                //blanks the main display
                 stationDataDisplay.setText("");
 
                 for (weatherStationData x : testData) {
+                    //adds the data to the display
                     stationDataDisplay.append(x.formatText());
                     stationDataDisplay.append(System.getProperty("line.separator"));
                 }
@@ -168,6 +173,7 @@ public class Server {
 
         while (true) {
             try {
+                //setups the inputstreams for the thread
                 server.socket = server.serverSocket.accept();
 
                 DataInputStream inputStream = new DataInputStream(server.socket.getInputStream());
@@ -183,7 +189,7 @@ public class Server {
 
                     server.connectedClientsWeatherIDs.put(thread.getClientID(), thread);
                     server.addWeatherClient(thread.getClientID());
-                }else if (thread.getType() == clientTypes.USER){
+                }else if (thread.getType() == clientTypes.USER || thread.getType() == clientTypes.LOGIN){
                     System.out.println("New user: " + thread.getClientID());
 
                     server.connectedClientUserIDs.put(thread.getClientID(), thread);
@@ -209,7 +215,8 @@ public class Server {
         return ID;
     }
 
-    public void disconnectStation(int clientID) {
+    public void disconnectClient(int clientID) {
+        // Disconnets the station or client and removes them from the lists
             if(connectedClientsWeatherIDs.containsKey(clientID)){
                 connectedClientsWeatherIDs.get(clientID).stopThread();
                 connectedClientsWeatherIDs.remove(clientID);
@@ -231,6 +238,7 @@ public class Server {
     }
 
     public List<weatherStationData> getDataFromThread(int clientID) {
+        //Creates a temporary thread
         ServerThread tempThread;
         if(connectedClientsWeatherIDs.containsKey(clientID)){
             tempThread = connectedClientsWeatherIDs.get(clientID);
@@ -239,11 +247,12 @@ public class Server {
             tempThread = connectedClientUserIDs.get(clientID);
         }
 
-
+        //returns the data from the thread
         return tempThread.dataList;
     }
 
     private void onCreateUser() {
+        // launches the UserCreation class to create users. Will not be in final release, only for testing
         try {
             UserCreation userCreationDialog = new UserCreation();
             userCreationDialog.setVisible(true);

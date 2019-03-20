@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class DatabaseHandler {
 
-
+    //fetches a user details from the database
     public static String[] getUserFromDatabase(String userNameInput)
     {
         try
@@ -28,6 +28,7 @@ public class DatabaseHandler {
         {
 
         }
+        //returns null if user is not found
         return null;
     }
 

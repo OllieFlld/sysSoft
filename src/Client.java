@@ -8,7 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Random;
 import java.util.Scanner;
-
+//client base class
 public class Client {
 
     int id;
@@ -34,7 +34,7 @@ public class Client {
 
 
     public void init() {
-
+        //sets up the socket and datastreams
         try {
             socketConnection = new Socket("localhost", 4445);
             this.inputStream = new DataInputStream(socketConnection.getInputStream());
@@ -44,14 +44,16 @@ public class Client {
 
 
         } catch (IOException e) {
+            //warns if the server is not reachable, asks to retry connection
             int retryConnection = JOptionPane.showConfirmDialog(null,"Can't connect to server. Retry? ", "Cant connect", JOptionPane.YES_NO_OPTION);
             if (retryConnection == JOptionPane.YES_OPTION )
             {
                 init();
             }
             else {
+                //prints the log and exits if no is selected (for retry connection)
                 e.printStackTrace();
-               // System.exit(0);
+               System.exit(0);
             }
 
         }
@@ -60,14 +62,13 @@ public class Client {
 
 
     public void sendToServer(String data) {
-        System.out.println("is connected: " + this.isConnected);
-        System.out.println(outputStream);
-        System.out.println(data);
 
+    //sends data to the server
             try {
                 this.outputStream.writeUTF(data);
 
             } catch (IOException e) {
+                //message box warning that the data could not be sent
                 JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Error sending data to server");
 
                // closeConnection();
@@ -77,7 +78,7 @@ public class Client {
 
     public void listen() {
         if (isConnected) {
-
+            //OLD LISTEN, ONLY USED FOR GETTING ID. WILL BE REDONE TO PROPERLY HANDLE SERVER MESSAGES
 
             try {
 
@@ -111,7 +112,7 @@ public class Client {
 
     public void closeConnection() {
         try {
-            System.out.println("Connected Closed");
+            //tells the server that it wants to disconnect
             sendToServer("!exit");
             this.isConnected = false;
             System.out.println(socketConnection);

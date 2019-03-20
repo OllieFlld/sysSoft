@@ -4,10 +4,11 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+//enum for the states a client can be
 enum clientTypes {
     USER,
     STATION,
+    LOGIN,
     UNSET
 }
 
@@ -18,10 +19,9 @@ public class ServerThread extends Thread {
     private int ID;
     public List<weatherStationData> dataList;
     private volatile boolean isThreadRunning = true;
-    private boolean loggedIn = false;
     private boolean clientConnected = false;
 
-    //determins the type of client. Default is unset
+    //determines the type of client. Default is unset
     public clientTypes type = clientTypes.UNSET;
 
 
@@ -79,44 +79,41 @@ public class ServerThread extends Thread {
                 //client can request to be disconnected by sending !exit
                 closeConnection();
             }
+
+            if (type == clientTypes.LOGIN) {
+
+                if (receivedData.startsWith("!login")) {
+                    // if it is a login request, then seperate the string to get the username/password
+                    List<String> loginData = new ArrayList<String>(Arrays.asList(receivedData.split(",")));
+                    String username = loginData.get(1);
+                    String password = loginData.get(2);
+                    //handle the username and password
+                    userLogin(username, password);
+                    username = "";
+                    password = "";
+                }
+
+
+            }
+
             //handles data if its from a user client
             if (type == clientTypes.USER) {
                 // if not logged in then the server will only listen for !login followed by the username and password
-                if(!loggedIn)
-                {
-                    if (receivedData.startsWith("!login")) {
-                        List<String> loginData = new ArrayList<String>(Arrays.asList(receivedData.split(",")));
-                        String username = loginData.get(1);
-                        String password = loginData.get(2);
-                        userLogin(username, password);
 
-
-                        //System.out.println(loginData.get());
-
-                        //Password.verifyPassword(receivedData)
-                    }
-                }
             }
-
+            //handles data if its from a weather station
             if (type == clientTypes.STATION){
+                //adds the received data to be displayed on the server
                 data = data.stringToData(receivedData);
-                data.printValues();
                 this.dataList.add(data);
             }
-
-
-            else {
+            //handles unset clients
+            else if  (type == clientTypes.UNSET){
                 if (receivedData.equals("#user")) {
-                    System.out.println("New User System Connection");
-                    type = clientTypes.USER;
+                    type = clientTypes.LOGIN;
                 } else if (receivedData.equals("#weather")) {
-                    System.out.println("New Weather System Connection!");
-                    loggedIn = true;
-                    type = clientTypes.STATION;
-                } else if (receivedData.equals("!exit")) {
-                    System.out.println("Closed Connection");
-                    closeConnection();
 
+                    type = clientTypes.STATION;
                 }
             }
 
@@ -128,28 +125,32 @@ public class ServerThread extends Thread {
 
     private void userLogin(String clientUsername, String clientPassword)
     {
+        //fetches data from the database using DatabaseHandler class
         String[] DBData = DatabaseHandler.getUserFromDatabase(clientUsername);
-
+        // if the fetch is null, then the username does not exist in the database
         if(DBData == null)
         {
+            //responds the the client stating that the user could not be found
             sendToClient("!login,nouser");
         }
         else {
             String dbPassword = DBData[1];
             String salt = DBData[2];
-
+            //Uses the Password class to verify the entered password with the one from the database using its salt
             if(Password.verifyPassword(clientPassword,dbPassword,salt))
             {
                 sendToClient("!login,success");
-                loggedIn = true;
+                type =  clientTypes.USER;
             }
             else
             {
+                //reponds with a fail if the password is incorrect
                  sendToClient("!login,passfailed");
             }
         }
     }
 
+    //closes the current connection
     public void closeConnection() {
         try {
             this.isThreadRunning = false;
@@ -164,7 +165,7 @@ public class ServerThread extends Thread {
         }
 
     }
-
+    //sends any passed data to the connected client
     public void sendToClient(String data)  {
         try {
             if(isThreadRunning) {

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ClientUser extends Client {
 
-
+    //Doesnt do much
 
     private JPanel mainPanel;
     private JPanel loginPanel;
@@ -29,6 +29,7 @@ public class ClientUser extends Client {
     private String password;
     private boolean loggedIn = false;
 
+    // inits the clientuser with socket info from the loginpage
     public void init(Socket socketConnection, DataInputStream inputStream, DataOutputStream outputStream, int ID)
     {
         this.socketConnection = socketConnection;
@@ -42,7 +43,7 @@ public class ClientUser extends Client {
 
 
     public ClientUser() {
-        System.out.println("in client");
+
         JFrame frame = new JFrame("User Client");
         frame.setContentPane(mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,33 +62,9 @@ public class ClientUser extends Client {
 
 
 
-    public static void main(String args[]) {
-
-/*
-        ClientUser client = new ClientUser();
-        System.out.println("new client");
-
-        JFrame frame = new JFrame("User Client");
-        frame.setContentPane(new ClientUser().mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setBounds(200, 200, 1000, 600);
-        frame.setVisible(true);
-
-
-        while(true) {
-            client.listen();
-
-        }
-        */
 
 
 
 
 
-
-
-
-
-
-    }
 }

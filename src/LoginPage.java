@@ -30,7 +30,7 @@ public class LoginPage extends Client {
             }
         });
 
-
+        //Handles the cancel button
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 closeConnection();
@@ -74,14 +74,19 @@ public class LoginPage extends Client {
 }
 
     private void loginSend() {
+        //PASSWORD WIL BE ENCRYPTED. PASSWORD SENT AS PLAIN TEXT TO SERVER FOR TESTING PURPOSES
+        //Gets the username and password from the user input fields
         String password = new String(passwordInputField.getPassword());
         String username = usernameInputField.getText();
+        //checks if the inputs are alphanumeric
         if (userInputFormatCheck(username) && userInputFormatCheck(password))
         {
+            //sends the login data to the server with the !login command to specify that its logging in
             sendToServer("!login," + username + "," + password);
         }
         else
         {
+            //shows a message box if the username/password are not alphanumeric
             JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Invalid username/password");
 
         }
@@ -90,11 +95,13 @@ public class LoginPage extends Client {
 
 
     private boolean userInputFormatCheck(String userInput) {
+
         char[] inputCharArray = userInput.toCharArray();
+        //checks if the input string is empty
         if (inputCharArray.length < 1) {
             return false;
         }
-
+        //checks if the input string is alphanumeric
         for (char c : inputCharArray) {
 
             if (!Character.isLetterOrDigit(c)) {
@@ -116,15 +123,18 @@ public class LoginPage extends Client {
         frame.setVisible(true);
         login.sendToServer("#user");
 
-
+        //while loop that runs while the user is not logged in
         while (!login.loggedIn) {
 
 
             login.listen();
 
         }
+        //removes the login window when the user successfully logs in
         frame.dispose();
+        //launches the user client
         ClientUser client = new ClientUser();
+        //passes the socket info so the client can share the same streams/id as the login
         client.init(login.socketConnection, login.inputStream, login.outputStream, login.id);
 
 
@@ -135,13 +145,17 @@ public class LoginPage extends Client {
 
     private boolean loginResponse(String response)
     {
+        //switches between the responses
         switch (response) {
             case "success":
+                //returns true if the server repsponse == success
                 return true;
             case "nouser":
+                //shows a message box stating that the username does not exist
                 JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Username does not exist");
                 break;
             case "passfailed":
+                //shows a message box stating that the password is incorrect
                 JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Incorrect Password. Try again");
         }
         return false;
