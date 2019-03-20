@@ -14,8 +14,8 @@ import java.util.List;
 public class ClientUser extends Client {
 
 
-    private volatile CardLayout cl = new CardLayout();
-    private JPanel mainPanel =  new JPanel(cl);;
+
+    private JPanel mainPanel;
     private JPanel loginPanel;
     private JPanel clientPanel;
     private JButton gayButt;
@@ -24,6 +24,7 @@ public class ClientUser extends Client {
     private JButton createUserButton;
     private JTextField usernameInputField;
     private JPasswordField passwordInputField;
+    private JLabel idField;
     private String username;
     private String password;
     private boolean loggedIn = false;
@@ -34,21 +35,35 @@ public class ClientUser extends Client {
         this.inputStream = inputStream;
         this.outputStream = outputStream;
         this.id = ID;
+        idField.setText(Integer.toString(id));
     }
 
 
 
 
     public ClientUser() {
-        System.out.println("another print");
+        System.out.println("in client");
+        JFrame frame = new JFrame("User Client");
+        frame.setContentPane(mainPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setBounds(200, 200, 1000, 600);
+        frame.setVisible(true);
+
+        gayButt.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                sendToServer("hello");
+            }
+        });
+
+
 
     }
 
 
 
     public static void main(String args[]) {
-        System.out.println("in client");
 
+/*
         ClientUser client = new ClientUser();
         System.out.println("new client");
 
@@ -63,6 +78,7 @@ public class ClientUser extends Client {
             client.listen();
 
         }
+        */
 
 
 

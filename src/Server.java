@@ -66,6 +66,7 @@ public class Server {
                 if(currentWeatherStation != 0) {
                     updateText();
                 }
+                removeOldClients();
             }
         });
         //Handles selecting the station from the list
@@ -83,7 +84,21 @@ public class Server {
         timer.start();
 
     }
-
+        private void removeOldClients()
+        {
+            for (Map.Entry<Integer, ServerThread> entry : connectedClientUserIDs.entrySet()) {
+                ServerThread tempThread = entry.getValue();
+                if (!tempThread.isClientConnected()) {
+                    disconnectStation(entry.getKey());
+                }
+            }
+            for (Map.Entry<Integer, ServerThread> entry : connectedClientsWeatherIDs.entrySet()) {
+                ServerThread tempThread = entry.getValue();
+                if (!tempThread.isClientConnected()) {
+                    disconnectStation(entry.getKey());
+                }
+            }
+        }
     public void disconnectPopup()
         {
             //Popup to ask if user wants to disconnect that weather station
@@ -110,12 +125,13 @@ public class Server {
 
     public void addWeatherClient(int serverID) {
         //Adds station to the list model to update the jlist
-        this.stationListModel.addElement(serverID);
+        stationListModel.addElement(serverID);
     }
 
     public void addUserClient(int serverID)
     {
-        this.clientListModel.addElement(serverID);
+
+        clientListModel.addElement(serverID);
     }
 
     public void updateText() {
@@ -197,16 +213,20 @@ public class Server {
             if(connectedClientsWeatherIDs.containsKey(clientID)){
                 connectedClientsWeatherIDs.get(clientID).stopThread();
                 connectedClientsWeatherIDs.remove(clientID);
+                stationListModel.removeElement(clientID);
+                stationNameDisplay.clearSelection();
+                stationDataDisplay.setText("");
+                currentWeatherStation = 0;
             }
             else{
                 connectedClientUserIDs.get(clientID).stopThread();
                 connectedClientUserIDs.remove(clientID);
+                clientListModel.removeElement(clientID);
+
             }
 
-        stationListModel.removeElement(clientID);
-        stationNameDisplay.clearSelection();
-        stationDataDisplay.setText("");
-        currentWeatherStation = 0;
+
+
 
     }
 

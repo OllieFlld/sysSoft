@@ -27,27 +27,20 @@ public class ClientWeather extends Client {
 
     public static void main(String args[]) {
 
-
         weather = new ClientWeather();
         data = new weatherStationData();
 
         weather.init();
 
-        //Handshake here, send data to the server telling it who it is
         weather.sendToServer("#weather");
 
-        while (weather.clientConnected) {
+        while (weather.isConnected) {
             weather.listen();
-
             //String sending = nathan.scanner.nextLine();
             data.generateRandomValues();
             LocalDateTime datetime = LocalDateTime.now();
-
             data.timestamp = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(datetime);
-
-            //System.out.println(client.id);
             String sending = (data.dataToString());
-
 
             try {
 
@@ -57,10 +50,11 @@ public class ClientWeather extends Client {
             }
             weather.sendToServer(sending);
 
-
-
         }
-    }
+        }
+
+        //Handshake here, send data to the server telling it who it is
+
 
 
 

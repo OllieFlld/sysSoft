@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
-
 enum clientTypes {
     USER,
     STATION,
@@ -21,8 +19,9 @@ public class ServerThread extends Thread {
     public List<weatherStationData> dataList;
     private volatile boolean isThreadRunning = true;
     private boolean loggedIn = false;
+    private boolean clientConnected = false;
 
-    //IF BOOL IS FALSE(0) then weather else user client
+    //determins the type of client. Default is unset
     public clientTypes type = clientTypes.UNSET;
 
 
@@ -36,13 +35,12 @@ public class ServerThread extends Thread {
 
     @Override
     public void run() {
-
             sendToClient("#" + Integer.toString(this.ID));
             while (isThreadRunning) {
                 listen();
                 //If data sent to client starts with a '#' it gets parsed otherwise it gets ignore
                 //This has to be sent otherwise the program gets stuck.
-                sendToClient(" ");
+               sendToClient(" ");
             }
 
     }
@@ -50,6 +48,10 @@ public class ServerThread extends Thread {
     public int getClientID() {
         return this.ID;
 
+    }
+    public boolean isClientConnected()
+    {
+        return clientConnected;
     }
 
     public clientTypes getType(){
@@ -67,16 +69,22 @@ public class ServerThread extends Thread {
 
     public void listen() {
         try {
-            //Distinguish what type of client it is
+            //Reads in the data from the inputstream
             weatherStationData data = new weatherStationData();
             String receivedData = inputStream.readUTF();
             System.out.println(receivedData);
+            clientConnected = true;
+            if (receivedData.equals("!exit"))
+            {
+                //client can request to be disconnected by sending !exit
+                closeConnection();
+            }
+            //handles data if its from a user client
             if (type == clientTypes.USER) {
-                System.out.println("USER DATA");
-                System.out.println(receivedData);
+                // if not logged in then the server will only listen for !login followed by the username and password
                 if(!loggedIn)
                 {
-                    if (receivedData.substring(0,6).equals("!login")) {
+                    if (receivedData.startsWith("!login")) {
                         List<String> loginData = new ArrayList<String>(Arrays.asList(receivedData.split(",")));
                         String username = loginData.get(1);
                         String password = loginData.get(2);
@@ -97,11 +105,7 @@ public class ServerThread extends Thread {
             }
 
 
-
-            ;
-
-            //System.out.println(receivedData);
-            if (!receivedData.isEmpty()) {
+            else {
                 if (receivedData.equals("#user")) {
                     System.out.println("New User System Connection");
                     type = clientTypes.USER;
@@ -114,30 +118,21 @@ public class ServerThread extends Thread {
                     closeConnection();
 
                 }
-
-
-
             }
-
 
         } catch (IOException e) {
             System.out.println("disconnected");
             return;
-
         }
-
-
     }
 
     private void userLogin(String clientUsername, String clientPassword)
     {
         String[] DBData = DatabaseHandler.getUserFromDatabase(clientUsername);
-        System.out.println(DBData);
+
         if(DBData == null)
         {
-            System.out.println("no user");
-            sendToClient("#login.nouser");
-
+            sendToClient("!login,nouser");
         }
         else {
             String dbPassword = DBData[1];
@@ -145,16 +140,12 @@ public class ServerThread extends Thread {
 
             if(Password.verifyPassword(clientPassword,dbPassword,salt))
             {
-                System.out.println("login.success");
-
-                sendToClient("!login.success");
+                sendToClient("!login,success");
                 loggedIn = true;
             }
             else
             {
-                System.out.println("login.passfailed");
-
-                sendToClient("!login.passfailed");
+                 sendToClient("!login,passfailed");
             }
         }
     }
@@ -162,6 +153,7 @@ public class ServerThread extends Thread {
     public void closeConnection() {
         try {
             this.isThreadRunning = false;
+            this.clientConnected = false;
             this.socket.close();
             this.inputStream.close();
             this.outputStream.close();
