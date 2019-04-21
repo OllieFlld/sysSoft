@@ -72,7 +72,6 @@ public class ServerThread extends Thread {
             //Reads in the data from the inputstream
             weatherStationData data = new weatherStationData();
             String receivedData = inputStream.readUTF();
-            System.out.println(receivedData);
             clientConnected = true;
             if (receivedData.equals("!exit"))
             {
@@ -99,6 +98,9 @@ public class ServerThread extends Thread {
             //handles data if its from a user client
             if (type == clientTypes.USER) {
                 // if not logged in then the server will only listen for !login followed by the username and password
+                if(receivedData.startsWith("!id")) {
+                    sendToClient("!ids." + getWeatherStationsID());
+                }
 
             }
             //handles data if its from a weather station
@@ -176,6 +178,18 @@ public class ServerThread extends Thread {
             closeConnection();
 
         }
+    }
+
+    public String getWeatherStationsID() {
+
+        String stringOfIDs = "";
+        for(int key : Server.connectedClientsWeatherIDs.keySet())
+        {
+            stringOfIDs += Integer.toString(key) + ",";
+        }
+        stringOfIDs = stringOfIDs.substring(0,stringOfIDs.length() - 1);
+        System.out.println(stringOfIDs);
+        return stringOfIDs;
     }
 
 

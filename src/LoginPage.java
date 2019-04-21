@@ -137,6 +137,12 @@ public class LoginPage extends Client {
         //passes the socket info so the client can share the same streams/id as the login
         client.init(login.socketConnection, login.inputStream, login.outputStream, login.id);
 
+        while(true)
+        {
+
+            client.listen();
+        }
+
 
         }
 
