@@ -16,17 +16,11 @@ public class ClientUser extends Client {
     private JPanel clientPanel;
     private JButton testBut;
     private JLabel idField;
-    private JTextField usernameInputField;
-    private JPasswordField passwordInputField;
-    private JButton createUserButton;
-    private JPanel loginPanel;
     private JList stationDataList;
     private JList connectedList;
     private JButton disconnectBtn;
     private JButton downloadBtn;
     private JButton updateBtn;
-    private JButton loginOKButton;
-    private JButton loginCancelButton;
     private JList stationDisplayIDs;
     private String username;
     private String password;
@@ -118,16 +112,5 @@ public class ClientUser extends Client {
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }

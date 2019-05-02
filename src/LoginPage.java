@@ -118,7 +118,7 @@ public class LoginPage extends Client {
         JFrame frame = new JFrame("User Login");
         frame.setContentPane(login.contentPane);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setBounds(200, 200, 1000, 600);
+        frame.setBounds(200, 200, 700, 300);
         frame.setVisible(true);
         login.sendToServer("#user");
         boolean status=false;

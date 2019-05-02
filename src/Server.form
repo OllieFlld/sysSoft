@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Server">
-  <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="6" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-    <margin top="0" left="0" bottom="0" right="0"/>
+  <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="10" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="15" left="25" bottom="10" right="15"/>
     <constraints>
-      <xy x="67" y="127" width="971" height="498"/>
+      <xy x="67" y="127" width="971" height="604"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
       <scrollpane id="a86b1">
         <constraints>
-          <grid row="0" column="0" row-span="5" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="9" col-span="2" vsize-policy="7" hsize-policy="7" anchor="10" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="720" height="510"/>
+            <preferred-size width="720" height="510"/>
+            <maximum-size width="720" height="510"/>
+          </grid>
         </constraints>
         <properties/>
         <border type="none"/>
@@ -25,13 +29,13 @@
           </component>
         </children>
       </scrollpane>
-      <grid id="531bf" binding="stationPanel" layout-manager="GridLayoutManager" row-count="6" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+      <grid id="531bf" binding="stationPanel" layout-manager="GridLayoutManager" row-count="7" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="20" left="5" bottom="0" right="5"/>
         <constraints>
-          <grid row="0" column="2" row-span="5" col-span="1" vsize-policy="3" hsize-policy="3" anchor="4" fill="2" indent="0" use-parent-layout="false">
-            <minimum-size width="150" height="-1"/>
-            <preferred-size width="150" height="-1"/>
-            <maximum-size width="150" height="-1"/>
+          <grid row="0" column="2" row-span="9" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="0" indent="0" use-parent-layout="false">
+            <minimum-size width="200" height="550"/>
+            <preferred-size width="200" height="550"/>
+            <maximum-size width="200" height="550"/>
           </grid>
         </constraints>
         <properties>
@@ -41,7 +45,11 @@
         <children>
           <scrollpane id="d3a97">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <minimum-size width="-1" height="200"/>
+                <preferred-size width="-1" height="200"/>
+                <maximum-size width="-1" height="200"/>
+              </grid>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -56,10 +64,10 @@
           </scrollpane>
           <component id="ea2cc" class="javax.swing.JButton" binding="updateStationDataButton" default-binding="true">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <horizontalAlignment value="4"/>
+              <horizontalAlignment value="0"/>
               <horizontalTextPosition value="0"/>
               <text value="Update Station Data"/>
             </properties>
@@ -82,7 +90,11 @@
           </component>
           <scrollpane id="ecffd">
             <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="1" fill="1" indent="0" use-parent-layout="false">
+                <minimum-size width="-1" height="150"/>
+                <preferred-size width="-1" height="150"/>
+                <maximum-size width="-1" height="150"/>
+              </grid>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -97,20 +109,39 @@
           </scrollpane>
           <component id="ec422" class="javax.swing.JLabel">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Connected Clients"/>
             </properties>
           </component>
+          <component id="8ba42" class="javax.swing.JButton" binding="createUserButton" default-binding="true">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Create User"/>
+            </properties>
+          </component>
         </children>
       </grid>
-      <component id="8ba42" class="javax.swing.JButton" binding="createUserButton" default-binding="true">
+      <vspacer id="347a6">
         <constraints>
-          <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+            <minimum-size width="-1" height="5"/>
+            <preferred-size width="-1" height="5"/>
+            <maximum-size width="-1" height="5"/>
+          </grid>
+        </constraints>
+      </vspacer>
+      <component id="d5b04" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Create User"/>
+          <enabled value="true"/>
+          <font size="16" style="0"/>
+          <text value="Weather Station Hub"/>
         </properties>
       </component>
     </children>

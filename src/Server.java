@@ -106,14 +106,15 @@ public class Server {
         {
             //Popup to ask if user wants to disconnect that weather station
             //Gets the selected station from the list
-            String currentSelectedStation = stationNameDisplay.getSelectedValue().toString();
-            if(currentSelectedStation == null)
+            Object selectedStation = stationNameDisplay.getSelectedValue();
+            if(selectedStation == null)
             {
                 //Popup if no station is selected
                 JOptionPane.showMessageDialog(JOptionPane.getRootFrame(),"No station selected");
             }
             else
             {
+                String currentSelectedStation = selectedStation.toString();
                 //Yes no confirmation to disconnecting the station
                 int disconnectStationConfirm = JOptionPane.showConfirmDialog(null,"Are you sure you want to disconnect station: " + currentSelectedStation, "Disconnect station", JOptionPane.YES_NO_OPTION);
                 if (disconnectStationConfirm == JOptionPane.YES_OPTION )
@@ -161,7 +162,7 @@ public class Server {
         JFrame frame = new JFrame("Server");
         frame.setContentPane(new Server().mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setBounds(200, 200, 1000, 600);
+        frame.setBounds(200, 200, 1000, 620);
         frame.setVisible(true);
 
         try {
