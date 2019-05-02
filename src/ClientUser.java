@@ -4,13 +4,13 @@ import java.awt.event.ActionListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ClientUser extends Client {
-
-    //Doesnt do much
 
     private JPanel mainPanel;
     private JPanel clientPanel;
@@ -33,21 +33,20 @@ public class ClientUser extends Client {
     private boolean loggedIn = false;
 
     static private DefaultListModel stationListModel = new DefaultListModel();
-    String[] serverIDs;
+    List<String> serverIDs;
+    List<String> oldIDs;
+    List<String> unique;
 
-    // inits the clientuser with socket info from the loginpage
+    public void requestID(){sendToServer("!id");}
+
+    // inits the clientUser with socket info from the loginPage
     public void init(Socket socketConnection, DataInputStream inputStream, DataOutputStream outputStream, int ID)
     {
-
         this.socketConnection = socketConnection;
         this.inputStream = inputStream;
         this.outputStream = outputStream;
         this.id = ID;
-        //idField.setText(Integer.toString(id));
     }
-
-
-
 
     public ClientUser() {
 
@@ -58,7 +57,6 @@ public class ClientUser extends Client {
         frame.setVisible(true);
         connectedList.setModel(stationListModel);
 
-        //sendToServer("!id");
         updateBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 sendToServer("!id");
@@ -74,54 +72,50 @@ public class ClientUser extends Client {
 
             }
         });
-
-
-
-
-
     }
-
 
     @Override
     public void listen() {
+        try {
+            String data = this.inputStream.readUTF();
+            if (!data.contains("EMPTY")) {
+                String stringOldIds = stationListModel.toString();
+                String finalOldIds = stringOldIds.replaceAll("\\[|\\]", "").replaceAll(" ", "");
+                oldIDs = Arrays.asList(finalOldIds.split(","));
 
-            try {
-                //Stores the received data into "data"
-                String data = inputStream.readUTF();
-                System.out.println(data);
-                if (data.startsWith("!ids."))
-                {
-
-                    ListModel oldIDs = connectedList.getModel();
-                    serverIDs = data.substring(5).split(",");
-
-                    if (stationListModel.getSize()==0)
-                    {
-                        for (String s : serverIDs)
-                        {
+                if (data.startsWith("!ids.")) {
+                    serverIDs = Arrays.asList(data.substring(5).split(","));
+                    System.out.println(data + " THIS IS THE DATA");
+                    if (stationListModel.getSize() == 0) {
+                        for (String s : serverIDs) {
                             stationListModel.addElement(s);
-
                         }
                     }
-
-                    else
-                    {
-                        for (String s : serverIDs)
-                        {
-                            if (s != null)
-                            {
-                                if (!stationListModel.contains(s))
-                                {
+                    else {
+                        for (String s : serverIDs) {
+                            if (s != null) {
+                                if (!stationListModel.contains(s)) {
                                     stationListModel.addElement(s);
                                 }
-
                             }
+                        }
 
+                        unique = new ArrayList<>(oldIDs);
+                        unique.removeAll(serverIDs);
+
+                        for (String deletedID : unique) {
+                            System.out.println("deleted a removed id");
+                            stationListModel.removeElement(deletedID);
                         }
                     }
                 }
             }
-            catch (IOException e) { }
+            else {
+                stationListModel.removeAllElements();
+            }
+        }
+        catch (IOException e) { }
+
 
     }
 

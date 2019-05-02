@@ -17,7 +17,6 @@ public class LoginPage extends Client {
     private JTextField usernameInputField;
     private JPasswordField passwordInputField;
     private JButton createUserButton;
-
     static LoginPage login;
 
     public LoginPage() {
@@ -122,13 +121,11 @@ public class LoginPage extends Client {
         frame.setBounds(200, 200, 1000, 600);
         frame.setVisible(true);
         login.sendToServer("#user");
+        boolean status=false;
 
         //while loop that runs while the user is not logged in
         while (!login.loggedIn) {
-
-
             login.listen();
-
         }
         //removes the login window when the user successfully logs in
         frame.dispose();
@@ -137,12 +134,12 @@ public class LoginPage extends Client {
         //passes the socket info so the client can share the same streams/id as the login
         client.init(login.socketConnection, login.inputStream, login.outputStream, login.id);
 
-        while(true)
+        while(login.isConnected)
         {
-
+            try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
+            client.requestID();
             client.listen();
         }
-
 
         }
 
@@ -166,8 +163,5 @@ public class LoginPage extends Client {
         }
         return false;
     }
-
-
-
 
 }

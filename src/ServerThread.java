@@ -79,10 +79,10 @@ public class ServerThread extends Thread {
                 closeConnection();
             }
 
-            if (type == clientTypes.LOGIN) {
-
                 if (receivedData.startsWith("!login")) {
-                    // if it is a login request, then seperate the string to get the username/password
+                    if (type == clientTypes.LOGIN) {
+
+                        // if it is a login request, then seperate the string to get the username/password
                     List<String> loginData = new ArrayList<String>(Arrays.asList(receivedData.split(",")));
                     String username = loginData.get(1);
                     String password = loginData.get(2);
@@ -171,8 +171,11 @@ public class ServerThread extends Thread {
     public void sendToClient(String data)  {
         try {
             if(isThreadRunning) {
+
                 outputStream.writeUTF(data);
                 outputStream.flush();
+                System.out.println(data);
+
             }
         } catch (IOException e) {
             closeConnection();
@@ -187,9 +190,11 @@ public class ServerThread extends Thread {
         {
             stringOfIDs += Integer.toString(key) + ",";
         }
-        stringOfIDs = stringOfIDs.substring(0,stringOfIDs.length() - 1);
-        System.out.println(stringOfIDs);
-        return stringOfIDs;
+        if(!stringOfIDs.isEmpty()) {
+            stringOfIDs = stringOfIDs.substring(0, stringOfIDs.length() - 1);
+            return stringOfIDs;
+        }
+        else {return "EMPTY";}
     }
 
 

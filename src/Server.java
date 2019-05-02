@@ -216,7 +216,7 @@ public class Server {
     }
 
     public void disconnectClient(int clientID) {
-        // Disconnets the station or client and removes them from the lists
+        // Disconnects the station or client and removes them from the lists
             if(connectedClientsWeatherIDs.containsKey(clientID)){
                 connectedClientsWeatherIDs.get(clientID).stopThread();
                 connectedClientsWeatherIDs.remove(clientID);
