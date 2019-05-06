@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.DataInputStream;
@@ -16,22 +18,27 @@ public class ClientUser extends Client {
     private JPanel clientPanel;
     private JButton testBut;
     private JLabel idField;
-    private JList stationDataList;
     private JList connectedList;
     private JButton disconnectBtn;
     private JButton downloadBtn;
     private JButton updateBtn;
+    private JTextArea stationDataList;
     private JList stationDisplayIDs;
     private String username;
     private String password;
     private boolean loggedIn = false;
 
+    int selectedStation = 0;
+
     static private DefaultListModel stationListModel = new DefaultListModel();
     List<String> serverIDs;
     List<String> oldIDs;
     List<String> unique;
+    String weatherData;
 
     public void requestID(){sendToServer("!id");}
+
+    public void requestStationData(String requestedID){sendToServer("!info" + requestedID); }
 
     // inits the clientUser with socket info from the loginPage
     public void init(Socket socketConnection, DataInputStream inputStream, DataOutputStream outputStream, int ID)
@@ -50,13 +57,12 @@ public class ClientUser extends Client {
         frame.setBounds(200, 200, 1000, 600);
         frame.setVisible(true);
         connectedList.setModel(stationListModel);
-
         updateBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 sendToServer("!id");
+                updateStationData();
             }
         });
-
 
         disconnectBtn.addActionListener(new ActionListener() {
             @Override
@@ -65,6 +71,16 @@ public class ClientUser extends Client {
                 System.exit(0);
 
             }
+        });
+
+        connectedList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(connectedList.getSelectedValue() != null)
+                {
+                    selectedStation = Integer.valueOf(connectedList.getSelectedValue().toString());
+                    updateStationData();
+                }}
         });
     }
 
@@ -76,7 +92,6 @@ public class ClientUser extends Client {
                 String stringOldIds = stationListModel.toString();
                 String finalOldIds = stringOldIds.replaceAll("\\[|\\]", "").replaceAll(" ", "");
                 oldIDs = Arrays.asList(finalOldIds.split(","));
-
                 if (data.startsWith("!ids.")) {
                     serverIDs = Arrays.asList(data.substring(5).split(","));
                     System.out.println(data + " THIS IS THE DATA");
@@ -103,6 +118,11 @@ public class ClientUser extends Client {
                         }
                     }
                 }
+                if (data.startsWith("!info.")){
+                    weatherData = data.substring(6);
+                    System.out.println("Reading weather station information");
+                    updateStationData();
+                }
             }
             else {
                 stationListModel.removeAllElements();
@@ -113,4 +133,20 @@ public class ClientUser extends Client {
 
     }
 
+    public void updateStationData(){
+        //Fetches data from the selected weather station (Copied from server)
+        if (connectedList.getSelectedValue() != null) {
+            if (selectedStation != 0) {
+                selectedStation = Integer.valueOf(connectedList.getSelectedValue().toString());
+                stationDataList.setText("");
+                if(weatherData != null){
+                    List<String> weatherLines = Arrays.asList(weatherData.split("\\*"));
+                    for(String line : weatherLines){
+                        stationDataList.append(line);
+                        stationDataList.append(System.getProperty("line.separator"));
+                    }
+                }
+            }
+        }
+    }
 }

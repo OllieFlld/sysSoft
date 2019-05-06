@@ -26,9 +26,13 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="274cc" class="javax.swing.JList" binding="stationDataList">
+              <component id="32a8b" class="javax.swing.JTextArea" binding="stationDataList">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <editable value="false"/>
+                  <font size="12"/>
+                  <lineWrap value="false"/>
+                </properties>
               </component>
             </children>
           </scrollpane>

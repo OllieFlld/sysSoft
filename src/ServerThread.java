@@ -101,6 +101,9 @@ public class ServerThread extends Thread {
                 if(receivedData.startsWith("!id")) {
                     sendToClient("!ids." + getWeatherStationsID());
                 }
+                else if(receivedData.startsWith("!info")) {
+                    sendToClient("!info." + getWeatherStationInformation(Integer.parseInt(receivedData.substring(5))));
+                }
 
             }
             //handles data if its from a weather station
@@ -197,7 +200,22 @@ public class ServerThread extends Thread {
         else {return "EMPTY";}
     }
 
-
+    public String getWeatherStationInformation(int requestedID) {
+        ServerThread dataThread;
+        if(Server.connectedClientsWeatherIDs.containsKey(requestedID)){
+            dataThread = Server.connectedClientsWeatherIDs.get(requestedID);
+        }
+        else{
+            dataThread = Server.connectedClientUserIDs.get(requestedID);
+        }
+        List<weatherStationData> data = dataThread.dataList;
+        String rawData = "";
+        for(weatherStationData x : data){
+            rawData += x.formatText();
+            rawData += "*";
+        }
+        return rawData;
+    }
 }
 
 

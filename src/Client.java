@@ -15,7 +15,7 @@ public class Client {
     Socket socketConnection;
     Scanner scanner;
     DataInputStream inputStream;
-     DataOutputStream outputStream;
+    DataOutputStream outputStream;
     Random random;
    // public static  Client client;
     public volatile   boolean isConnected = false;
