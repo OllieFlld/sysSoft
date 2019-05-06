@@ -28,17 +28,21 @@ public class ClientUser extends Client {
     private String password;
     private boolean loggedIn = false;
 
-    int selectedStation = 0;
+    private int selectedStation = 0;
 
     static private DefaultListModel stationListModel = new DefaultListModel();
     List<String> serverIDs;
     List<String> oldIDs;
     List<String> unique;
-    String weatherData;
+    List<String> weatherData;
 
     public void requestID(){sendToServer("!id");}
 
-    public void requestStationData(String requestedID){sendToServer("!info" + requestedID); }
+    public void requestStationData(List<String> IDs){
+        String sendString = "!info";
+        for(String x : IDs){sendString += x + ",";}
+        sendToServer(sendString);
+    }
 
     // inits the clientUser with socket info from the loginPage
     public void init(Socket socketConnection, DataInputStream inputStream, DataOutputStream outputStream, int ID)
@@ -119,7 +123,7 @@ public class ClientUser extends Client {
                     }
                 }
                 if (data.startsWith("!info.")){
-                    weatherData = data.substring(6);
+                    weatherData = Arrays.asList(data.substring(6).split("\\+"));
                     System.out.println("Reading weather station information");
                     updateStationData();
                 }
@@ -140,10 +144,14 @@ public class ClientUser extends Client {
                 selectedStation = Integer.valueOf(connectedList.getSelectedValue().toString());
                 stationDataList.setText("");
                 if(weatherData != null){
-                    List<String> weatherLines = Arrays.asList(weatherData.split("\\*"));
-                    for(String line : weatherLines){
-                        stationDataList.append(line);
-                        stationDataList.append(System.getProperty("line.separator"));
+                    for(String station: weatherData){
+                        if(Integer.parseInt(station.substring(0,2)) == selectedStation){
+                            List<String> weatherLines = Arrays.asList(station.split("\\*"));
+                            for (String line : weatherLines) {
+                                stationDataList.append(line);
+                                stationDataList.append(System.getProperty("line.separator"));
+                            }
+                        }
                     }
                 }
             }

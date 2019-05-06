@@ -139,13 +139,12 @@ public class LoginPage extends Client {
             try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
             client.requestID();
             client.listen();
-            if(client.selectedStation != 0){
-                client.requestStationData(Integer.toString(client.selectedStation));
+            if(client.serverIDs != null){
+                client.requestStationData(client.serverIDs);
                 client.listen();
             }
         }
-
-        }
+    }
 
 
 

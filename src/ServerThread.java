@@ -102,7 +102,7 @@ public class ServerThread extends Thread {
                     sendToClient("!ids." + getWeatherStationsID());
                 }
                 else if(receivedData.startsWith("!info")) {
-                    sendToClient("!info." + getWeatherStationInformation(Integer.parseInt(receivedData.substring(5))));
+                    sendToClient("!info." + getWeatherStationInformation(receivedData.substring(5)));
                 }
 
             }
@@ -200,19 +200,25 @@ public class ServerThread extends Thread {
         else {return "EMPTY";}
     }
 
-    public String getWeatherStationInformation(int requestedID) {
+    public String getWeatherStationInformation(String requestedIDs) {
+        List<String> IDs = Arrays.asList(requestedIDs.split(","));
         ServerThread dataThread;
-        if(Server.connectedClientsWeatherIDs.containsKey(requestedID)){
-            dataThread = Server.connectedClientsWeatherIDs.get(requestedID);
-        }
-        else{
-            dataThread = Server.connectedClientUserIDs.get(requestedID);
-        }
-        List<weatherStationData> data = dataThread.dataList;
         String rawData = "";
-        for(weatherStationData x : data){
-            rawData += x.formatText();
-            rawData += "*";
+        for(String ID : IDs){
+            int IDn = Integer.parseInt(ID);
+            if(Server.connectedClientsWeatherIDs.containsKey(IDn)){
+                dataThread = Server.connectedClientsWeatherIDs.get(IDn);
+            }
+            else{
+                dataThread = Server.connectedClientUserIDs.get(IDn);
+            }
+            List<weatherStationData> data = dataThread.dataList;
+            rawData += ID;
+            for(weatherStationData x : data){
+                rawData += x.formatText();
+                rawData += "*";
+            }
+            rawData += "+";
         }
         return rawData;
     }
