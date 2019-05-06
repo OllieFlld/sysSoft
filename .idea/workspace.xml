@@ -40,8 +40,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ServerThread.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="620">
-              <caret line="219" column="13" lean-forward="true" selection-start-line="219" selection-start-column="13" selection-end-line="219" selection-end-column="13" />
+            <state relative-caret-position="2126">
+              <caret line="206" column="29" lean-forward="true" selection-start-line="206" selection-start-column="29" selection-end-line="206" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -49,8 +49,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ClientUser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2346">
-              <caret line="150" column="9" selection-start-line="150" selection-start-column="9" selection-end-line="150" selection-end-column="9" />
+            <state relative-caret-position="1497">
+              <caret line="153" column="77" lean-forward="true" selection-start-line="153" selection-start-column="77" selection-end-line="153" selection-end-column="77" />
+              <folding>
+                <element signature="e#2665#2666#0" expanded="true" />
+                <element signature="e#2711#2712#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -58,8 +62,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/LoginPage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="443">
-              <caret line="143" column="32" lean-forward="true" selection-start-line="143" selection-start-column="32" selection-end-line="143" selection-end-column="32" />
+            <state relative-caret-position="392">
+              <caret line="140" column="28" selection-start-line="140" selection-start-column="28" selection-end-line="140" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -70,8 +74,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1024">
-              <caret line="152" column="84" lean-forward="true" selection-start-line="152" selection-start-column="84" selection-end-line="152" selection-end-column="84" />
+            <state relative-caret-position="-1033">
+              <caret line="152" column="84" selection-start-line="152" selection-start-column="84" selection-end-line="152" selection-end-column="84" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1669#1670#0" expanded="true" />
@@ -222,7 +226,7 @@
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH" value="228" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557184019742" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1557186577603" />
     <property name="last_opened_file_path" value="$USER_HOME$/Documents/sysSoft" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
@@ -362,7 +366,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="1" />
@@ -370,7 +373,7 @@
       <window_info id="UI Designer" order="3" />
       <window_info id="Capture Tool" order="4" />
       <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="6" visible="true" weight="0.12260128" />
+      <window_info active="true" content_ui="combo" id="Project" order="6" visible="true" weight="0.12260128" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.2426869" />
       <window_info anchor="bottom" id="TODO" order="2" weight="0.3289689" />
@@ -378,7 +381,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Docker" order="6" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="7" sideWeight="0.4904051" visible="true" weight="0.17334779" />
+      <window_info anchor="bottom" id="Run" order="7" sideWeight="0.4904051" visible="true" weight="0.17334779" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.3289689" />
@@ -561,10 +564,20 @@
     <entry file="file://$PROJECT_DIR$/src/ClientUser.form">
       <provider selected="true" editor-type-id="ui-designer" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/LoginPage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="140" column="28" selection-start-line="140" selection-start-column="28" selection-end-line="140" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1024">
-          <caret line="152" column="84" lean-forward="true" selection-start-line="152" selection-start-column="84" selection-end-line="152" selection-end-column="84" />
+        <state relative-caret-position="-1033">
+          <caret line="152" column="84" selection-start-line="152" selection-start-column="84" selection-end-line="152" selection-end-column="84" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1669#1670#0" expanded="true" />
@@ -575,27 +588,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/LoginPage.java">
+    <entry file="file://$PROJECT_DIR$/Station 17 data.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="443">
-          <caret line="143" column="32" lean-forward="true" selection-start-line="143" selection-start-column="32" selection-end-line="143" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="-877">
+          <caret line="7" column="37" lean-forward="true" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Station 38 data.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-129" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Station 86 data.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Station 35 data.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Station 78 data.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Station 3 data.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1438" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ServerThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="620">
-          <caret line="219" column="13" lean-forward="true" selection-start-line="219" selection-start-column="13" selection-end-line="219" selection-end-column="13" />
+        <state relative-caret-position="2126">
+          <caret line="206" column="29" lean-forward="true" selection-start-line="206" selection-start-column="29" selection-end-line="206" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ClientUser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2346">
-          <caret line="150" column="9" selection-start-line="150" selection-start-column="9" selection-end-line="150" selection-end-column="9" />
+        <state relative-caret-position="1497">
+          <caret line="153" column="77" lean-forward="true" selection-start-line="153" selection-start-column="77" selection-end-line="153" selection-end-column="77" />
+          <folding>
+            <element signature="e#2665#2666#0" expanded="true" />
+            <element signature="e#2711#2712#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.io.FileWriter;
 
 public class ClientUser extends Client {
 
@@ -40,7 +41,10 @@ public class ClientUser extends Client {
 
     public void requestStationData(List<String> IDs){
         String sendString = "!info";
-        for(String x : IDs){sendString += x + ",";}
+        for(String x : IDs){
+            if(Integer.parseInt(x) < 10) { x = "0" + x;}
+            sendString += x + ",";
+        }
         sendToServer(sendString);
     }
 
@@ -63,8 +67,10 @@ public class ClientUser extends Client {
         connectedList.setModel(stationListModel);
         updateBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                sendToServer("!id");
-                updateStationData();
+                requestStationData(serverIDs);
+                listen();
+                requestID();
+                listen();
             }
         });
 
@@ -74,6 +80,13 @@ public class ClientUser extends Client {
                 closeConnection();
                 System.exit(0);
 
+            }
+        });
+
+        updateBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                downloadData();
             }
         });
 
@@ -146,7 +159,7 @@ public class ClientUser extends Client {
                 if(weatherData != null){
                     for(String station: weatherData){
                         if(Integer.parseInt(station.substring(0,2)) == selectedStation){
-                            List<String> weatherLines = Arrays.asList(station.split("\\*"));
+                            List<String> weatherLines = Arrays.asList(station.substring(2).split("\\*"));
                             for (String line : weatherLines) {
                                 stationDataList.append(line);
                                 stationDataList.append(System.getProperty("line.separator"));
@@ -157,4 +170,25 @@ public class ClientUser extends Client {
             }
         }
     }
+
+    public void downloadData() {
+        updateStationData();
+        String fileName = "Station " + Integer.toString(selectedStation) + " data.txt";
+        try {
+            FileWriter out = new FileWriter(fileName, false);
+            if(weatherData != null) {
+                for (String station : weatherData) {
+                    if (Integer.parseInt(station.substring(0, 2)) == selectedStation) {
+                        List<String> weatherLines = Arrays.asList(station.substring(2).split("\\*"));
+                        for (String line : weatherLines) {
+                            out.write(line + "\n");
+                        }
+                    }
+                }
+            }
+            out.close();
+        }
+        catch(IOException e) { }
+    }
+
 }
