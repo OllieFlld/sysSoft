@@ -29,7 +29,7 @@ public class ClientUser extends Client {
     private String password;
     private boolean loggedIn = false;
 
-    private int selectedStation = 0;
+    private int selectedStation = -1;
 
     static private DefaultListModel stationListModel = new DefaultListModel();
     List<String> serverIDs;
@@ -45,6 +45,7 @@ public class ClientUser extends Client {
             if(Integer.parseInt(x) < 10) { x = "0" + x;}
             sendString += x + ",";
         }
+        System.out.println(sendString);
         sendToServer(sendString);
     }
 
@@ -79,11 +80,10 @@ public class ClientUser extends Client {
             public void actionPerformed(ActionEvent e) {
                 closeConnection();
                 System.exit(0);
-
             }
         });
 
-        updateBtn.addActionListener(new ActionListener() {
+        downloadBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 downloadData();
@@ -153,7 +153,7 @@ public class ClientUser extends Client {
     public void updateStationData(){
         //Fetches data from the selected weather station (Copied from server)
         if (connectedList.getSelectedValue() != null) {
-            if (selectedStation != 0) {
+            if (selectedStation != -1) {
                 selectedStation = Integer.valueOf(connectedList.getSelectedValue().toString());
                 stationDataList.setText("");
                 if(weatherData != null){
@@ -173,22 +173,25 @@ public class ClientUser extends Client {
 
     public void downloadData() {
         updateStationData();
-        String fileName = "Station " + Integer.toString(selectedStation) + " data.txt";
-        try {
-            FileWriter out = new FileWriter(fileName, false);
-            if(weatherData != null) {
-                for (String station : weatherData) {
-                    if (Integer.parseInt(station.substring(0, 2)) == selectedStation) {
-                        List<String> weatherLines = Arrays.asList(station.substring(2).split("\\*"));
-                        for (String line : weatherLines) {
-                            out.write(line + "\n");
+        if(selectedStation != -1) {
+            String fileName = "Station " + Integer.toString(selectedStation) + " data.txt";
+            try {
+                System.out.println("Downloading");
+                FileWriter out = new FileWriter(fileName, false);
+                if (weatherData != null) {
+                    for (String station : weatherData) {
+                        if (Integer.parseInt(station.substring(0, 2)) == selectedStation) {
+                            List<String> weatherLines = Arrays.asList(station.substring(2).split("\\*"));
+                            for (String line : weatherLines) {
+                                out.write(line + "\n");
+                            }
                         }
                     }
+                    System.out.println("Download successful");
                 }
-            }
-            out.close();
+                out.close();
+            } catch (IOException e) { System.out.println("Download failed");}
         }
-        catch(IOException e) { }
     }
 
 }
