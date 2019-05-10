@@ -135,7 +135,6 @@ public class ClientUser extends Client {
                 }
                 if (data.startsWith("!info.")){
                     weatherData = Arrays.asList(data.substring(6).split("\\+"));
-                    System.out.println("Reading weather station information");
                     updateStationData();
                 }
             }
