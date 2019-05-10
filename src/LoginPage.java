@@ -48,18 +48,16 @@ public class LoginPage extends Client {
         try {
             //Stores the received data into "data"
             String data = inputStream.readUTF();
-            System.out.println(data);
             if (data.length() > 1) {
                 // # represents the handshake. It will be followed by a number which is assigned to the clients id
                 if (data.startsWith("#")) {
                     id = Integer.valueOf(data.substring(1, data.length()));
                 }
-                // ! represents commands the client can recieve
+                // ! represents commands the client can receive
                 if (data.startsWith("!")) {
                     // !login, with a , to differentiate between a client login request and a server reponse.
 
                     if (data.startsWith("!login,")) {
-                        System.out.println(data.substring(7, data.length()));
                         this.loggedIn = loginResponse(data.substring(7, data.length()));
                     }
                 }
@@ -73,7 +71,6 @@ public class LoginPage extends Client {
 }
 
     private void loginSend() {
-        //PASSWORD WIL BE ENCRYPTED. PASSWORD SENT AS PLAIN TEXT TO SERVER FOR TESTING PURPOSES
         //Gets the username and password from the user input fields
         String password = new String(passwordInputField.getPassword());
         String username = usernameInputField.getText();

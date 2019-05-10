@@ -45,7 +45,6 @@ public class ClientUser extends Client {
             if(Integer.parseInt(x) < 10) { x = "0" + x;}
             sendString += x + ",";
         }
-        System.out.println(sendString);
         sendToServer(sendString);
     }
 
@@ -111,7 +110,6 @@ public class ClientUser extends Client {
                 oldIDs = Arrays.asList(finalOldIds.split(","));
                 if (data.startsWith("!ids.")) {
                     serverIDs = Arrays.asList(data.substring(5).split(","));
-                    System.out.println(data + " THIS IS THE DATA");
                     if (stationListModel.getSize() == 0) {
                         for (String s : serverIDs) {
                             stationListModel.addElement(s);
@@ -130,7 +128,7 @@ public class ClientUser extends Client {
                         unique.removeAll(serverIDs);
 
                         for (String deletedID : unique) {
-                            System.out.println("deleted a removed id");
+                            System.out.println("Deleted a removed id");
                             stationListModel.removeElement(deletedID);
                         }
                     }

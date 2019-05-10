@@ -233,9 +233,6 @@ public class Server {
 
             }
 
-
-
-
     }
 
     public List<weatherStationData> getDataFromThread(int clientID) {

@@ -82,7 +82,7 @@ public class ServerThread extends Thread {
                 if (receivedData.startsWith("!login")) {
                     if (type == clientTypes.LOGIN) {
 
-                        // if it is a login request, then seperate the string to get the username/password
+                        // if it is a login request, then separate the string to get the username/password
                     List<String> loginData = new ArrayList<String>(Arrays.asList(receivedData.split(",")));
                     String username = loginData.get(1);
                     String password = loginData.get(2);
@@ -177,7 +177,6 @@ public class ServerThread extends Thread {
 
                 outputStream.writeUTF(data);
                 outputStream.flush();
-                System.out.println(data);
 
             }
         } catch (IOException e) {

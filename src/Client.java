@@ -71,34 +71,24 @@ public class Client {
                 //message box warning that the data could not be sent
                 JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), "Error sending data to server");
 
-               // closeConnection();
             }
 
     }
 
     public void listen() {
         if (isConnected) {
-            //OLD LISTEN, ONLY USED FOR GETTING ID. WILL BE REDONE TO PROPERLY HANDLE SERVER MESSAGES
 
             try {
 
-            //THIS IS WHERE ALL THE DATA COMING IN FROM THE SERVER SHOULD BE HANDLED
-
                 String data = inputStream.readUTF();
-                System.out.println(data);
-
-
                 if (!data.substring(0, 1).equals("#")) {
                     return;
                 }
 
                 id = Integer.parseInt(data.substring(1, data.length()));
 
-                System.out.println("DATA FROM SERVER : " + data);
-                //System.out.println("CLIENT ID : " + Integer.toString(client.id));
+                System.out.println("Server Data : " + data);
 
-
-                    //client.inputStream.reset();
             } catch(IOException e) {
 
                 closeConnection();
